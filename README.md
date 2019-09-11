@@ -8,3 +8,4 @@ utilization of whitepin service
 
 ## Entity Relation
 (https://www.draw.io/#G1MyCpzvedhOuY6BhHl4L3-2TtleyJCPnu)
+![whitepin_player_ER](./whitepin_player_ER.jpg)
