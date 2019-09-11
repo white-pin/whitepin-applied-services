@@ -1,10 +1,10 @@
 # whitepin-player
 utilization of whitepin service
 
-# kind
+## kind
 1. Airbnb
 2. 당근마켓
 3. ...
 
-# Entity Relation
-![whitepin_player_ER](./whitepin_player_ER.jpg)
+## Entity Relation
+(https://www.draw.io/#G1MyCpzvedhOuY6BhHl4L3-2TtleyJCPnu)
