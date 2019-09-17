@@ -1,6 +1,5 @@
-package com.github.airbnb.controller;
+package com.github.airbnb.controller.view;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,12 +9,17 @@ import com.github.airbnb.dto.ResponseDTO;
 @RestController
 @RequestMapping(value = "/score")
 public class ScoreController {
-    
-//    @Autowired
-//    private ScoreService scoreService;
-    
+
+    //    @Autowired
+    //    private ScoreService scoreService;
+
     @RequestMapping(value = "/enroll")
     public ResponseEntity<ResponseDTO> scoreEnroll() {
+        return ResponseEntity.ok().body(new ResponseDTO());
+    }
+
+    @RequestMapping(value = "/enrollTemp")
+    public ResponseEntity<ResponseDTO> scoreEnrollTemp() {
         return ResponseEntity.ok().body(new ResponseDTO());
     }
 

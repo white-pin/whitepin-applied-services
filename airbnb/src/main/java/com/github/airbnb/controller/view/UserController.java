@@ -1,6 +1,7 @@
-package com.github.airbnb.controller;
+package com.github.airbnb.controller.view;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/user")
 public class UserController {
     
-    @GetMapping(value = "/profile")
-    public String profile() {
+    @GetMapping(value = "/edit")
+    public String getProfile() {
         return "profile";
     }
 }

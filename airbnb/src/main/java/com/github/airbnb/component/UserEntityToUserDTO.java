@@ -17,6 +17,7 @@ public class UserEntityToUserDTO implements Converter<UserEntity, UserDTO> {
                     .name(user.getName())
                     .email(user.getEmail())
                     .build();
+            sdafkjklaf
         }
         return userDTO;
     }

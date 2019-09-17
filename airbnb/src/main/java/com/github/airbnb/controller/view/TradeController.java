@@ -1,4 +1,4 @@
-package com.github.airbnb.controller;
+package com.github.airbnb.controller.view;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -2,6 +2,7 @@ package com.github.airbnb.dto;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,21 +21,23 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-@XmlRootElement(name="product")
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(description = "상품")
 public class ProductDTO {
-    private String productId;
-    private String productName;
-    private String productInfo;
+    private String id;
+    private String name;
+    private String title;
+    private String joinDate;
+    private String info;
+    private String address;
+    private String language;
     private String userId;
-    private List<Evaluation> evaluations; 
+    private List<EvaluationDTO> evaluations; 
     
     @Getter
     @Setter
     @Builder
     @ToString
-    public static class Evaluation {
+    public static class EvaluationDTO {
         private String date;
         private String review;
         private String score1;

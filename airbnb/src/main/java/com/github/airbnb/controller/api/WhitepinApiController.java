@@ -1,4 +1,4 @@
-package com.github.airbnb.controller;
+package com.github.airbnb.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +13,22 @@ import com.github.airbnb.service.WhitepinService;
 
 @RestController
 @RequestMapping(value = "/whitepin")
-public class WhitepinController {
+public class WhitepinApiController {
     
     @Autowired
     private WhitepinService whitepinService;
     
-    @GetMapping(value = "/whitepinInterlocking")
+    @GetMapping(value = "/interlocking")
     public String whitepinInterlocking() {
         return "whitepinInterlocking";
     }
     
-    @PostMapping(value = "/whitepinLogin")
+    @GetMapping(value = "/evaluation")
+    public String whitepinEvaluation() {
+        return "whitepinEvaluataion";
+    }
+    
+    @PostMapping(value = "/login")
     public ResponseEntity<ResponseDTO> whitepinLogin(UserDTO userDto) {
         //TODO :: whitepin login 로직
         // whitepinService.

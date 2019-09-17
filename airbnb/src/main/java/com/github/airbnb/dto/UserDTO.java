@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(description = "회원")
 public class UserDTO {
-
+    
     @ApiModelProperty(notes = "이름")
     String name;
 

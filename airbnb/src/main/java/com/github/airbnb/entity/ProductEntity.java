@@ -1,7 +1,5 @@
 package com.github.airbnb.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,9 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,10 +37,22 @@ public class ProductEntity {
     @Column(name = "name")
     String name;
 
+    @Column(name = "title")
+    String title;
+    
+    @Column(name = "join_date")
+    String joinDate;
+    
     @Column(name = "info")
     String info;
+    
+    @Column(name = "address")
+    String address;
+    
+    @Column(name = "language")
+    String language;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Collection<TradeEntity> trades;
+    private List<TradeEntity> trades;
 }
