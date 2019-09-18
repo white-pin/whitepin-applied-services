@@ -4,18 +4,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
     
     @GetMapping(value = "/edit")
-    public String profile() {
-        return "profile";
+    public ModelAndView profile() {
+    	ModelAndView mav = new ModelAndView();
+        return mav;
     }
     
     @GetMapping(value = "/show")
-    public String show() {
-        return "show";
+    public ModelAndView show() {
+    	ModelAndView mav = new ModelAndView();
+        return mav;
     }
 }

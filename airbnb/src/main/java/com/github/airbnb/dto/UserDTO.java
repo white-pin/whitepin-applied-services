@@ -65,4 +65,16 @@ public class UserDTO {
     @ApiModelProperty(notes = "유저 토큰")
     String token;
     
+    @ApiModelProperty(notes = "판매 점수 평균")
+    String sellTotEvalAvg;
+    
+    @ApiModelProperty(notes = "거래안정성 평균")
+    String sellEvalAvg1;
+    
+    @ApiModelProperty(notes = "서비스/태도 평균")
+    String sellEvalAvg2;
+    
+    @ApiModelProperty(notes = "지속가능성 평균")
+    String sellEvalAvg3;
+    
 }

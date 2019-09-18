@@ -14,7 +14,6 @@ import com.github.airbnb.dto.ProductDTO;
 import com.github.airbnb.dto.ProductDTO.EvaluationDTO;
 import com.github.airbnb.entity.ProductEntity;
 import com.github.airbnb.entity.TradeEntity;
-import com.github.airbnb.entity.UserEntity;
 import com.github.airbnb.repository.ProductRepository;
 
 @RestController

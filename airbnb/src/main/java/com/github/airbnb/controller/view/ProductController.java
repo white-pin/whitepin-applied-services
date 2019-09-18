@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.airbnb.dto.ProductDTO;
 import com.github.airbnb.dto.UserDTO;
@@ -13,12 +14,14 @@ import com.github.airbnb.dto.UserDTO;
 public class ProductController {
 
     @GetMapping(value = "/products")
-    public String products() {
-        return "productList";
+    public ModelAndView products() {
+    	ModelAndView mav = new ModelAndView();
+        return mav;
     }
 
     @GetMapping(value = "/product")
-    public String product() {
-        return "productDetail";
+    public ModelAndView product() {
+    	ModelAndView mav = new ModelAndView();
+        return mav;
     }
 }

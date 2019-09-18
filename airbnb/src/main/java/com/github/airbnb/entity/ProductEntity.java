@@ -44,6 +44,9 @@ public class ProductEntity {
     @Column(name = "address")
     String address;
     
+    @Column(name = "price")
+    String price;
+    
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private List<TradeEntity> trades;

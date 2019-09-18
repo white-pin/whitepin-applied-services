@@ -2,11 +2,6 @@ package com.github.airbnb.dto;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +22,7 @@ public class ProductDTO {
     private String title;
     private String info;
     private String address;
+    private String price;
     private String userId;
     private List<EvaluationDTO> evaluations; 
     
