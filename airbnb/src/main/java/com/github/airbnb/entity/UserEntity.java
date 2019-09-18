@@ -1,18 +1,9 @@
 package com.github.airbnb.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.CollectionUtils;
 
 @Getter
 @Setter
@@ -33,6 +25,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     long id;
 
     @Column(name = "first_name")
@@ -80,4 +73,20 @@ public class UserEntity {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private List<ProductEntity> products;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "airbnb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id")
+            , indexes = {
+            @Index(columnList="user_id,role_id", unique = true)
+    }
+    )
+    private List<RoleEntity> roles = new ArrayList<>();
+
+    public void addRole(RoleEntity roleEntity){
+        if(CollectionUtils.isEmpty(this.roles)){
+            this.roles = new ArrayList<>();
+        }
+        this.roles.add(roleEntity);
+    }
 }

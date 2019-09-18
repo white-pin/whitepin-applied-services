@@ -1,22 +1,17 @@
 package com.github.airbnb;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.StringUtils;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.util.StringUtils;
-
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan
 public class AirbnbApplication {
-    
+
     public static void main(String[] args) {
         beforeApplicationSetup(args);
         SpringApplication.run(AirbnbApplication.class, args);
@@ -35,7 +30,7 @@ public class AirbnbApplication {
         String profileValues = System.getProperty("spring.profiles.active");
 
         if (!StringUtils.hasText(profileValues)) {
-            log.info("Setting default profile because empty active profile. default : [{}]", defaultProfile);
+            logger.info("Setting default profile because empty active profile. default : [{}]", defaultProfile);
             System.setProperty("spring.profiles.active", defaultProfile);
             return;
         }

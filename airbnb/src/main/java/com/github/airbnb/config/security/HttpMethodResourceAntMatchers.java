@@ -1,16 +1,16 @@
 package com.github.airbnb.config.security;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class HttpMethodResourceAntMatchers {
 
     // list of all defined matchers
     public List<HttpMethodResourceAntMatcher> matcherList = new ArrayList<>();
-    
+
     /**
      * Applies all existing Matchers to the providd httpSecurity object as .authorizeRequest().antMatchers().hasAnyRole()
      * @param httpSecurity
@@ -22,7 +22,7 @@ public class HttpMethodResourceAntMatchers {
                 httpSecurity.authorizeRequests().antMatchers(matcher.getMethod(), matcher.getAntPattern()).hasAnyRole(matcher.getRoles());
             } catch (Exception e) {
                 e.printStackTrace();
-                log.error("Could not antMatchers Matcher to httpSecurity. Matcher: " + matcher + ". Exception:" + e);
+                logger.error("Could not antMatchers Matcher to httpSecurity. Matcher: " + matcher + ". Exception:" + e);
                 throw e;
             }
         }
