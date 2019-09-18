@@ -16,6 +16,9 @@ spring:
       suffix: .jsp
 #    static-path-pattern: /resources/**
 
+whitepin:
+  service-code: PTN0001
+
 ---
 # local profile
 spring:

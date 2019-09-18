@@ -30,9 +30,6 @@ public class TradeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(name = "trade_id")
-    String tradeId;
-    
     @Column(name = "buyer_user_id")
     String buyerUserId;
 

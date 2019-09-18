@@ -14,8 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-@ApiModel(description = "response")
-public class ResponseDTO {
-	private String code;
-    private String message;
+@ApiModel(description = "거래")
+public class TradeDTO {
+    private String productId;
+    private String buyerUserId;
 }

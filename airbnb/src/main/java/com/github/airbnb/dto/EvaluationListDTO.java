@@ -17,8 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-@XmlRootElement(name="EvaluationList")
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(description = "구매/판매 평가 목록")
 public class EvaluationListDTO {
 

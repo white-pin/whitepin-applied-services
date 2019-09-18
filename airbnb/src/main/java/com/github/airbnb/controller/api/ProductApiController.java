@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.airbnb.dto.ProductDTO;
@@ -28,7 +28,7 @@ public class ProductApiController {
     @Autowired
     private Converter<TradeEntity, EvaluationDTO> tradeConverter;
     
-    @PostMapping(value = "/products")
+    @GetMapping(value = "/products")
     public ResponseEntity<List<ProductDTO>> productList() {
         List<ProductEntity> allproduct = productRepository.findAll();
         List<ProductDTO> products = new ArrayList<ProductDTO>(allproduct.size());
@@ -39,9 +39,9 @@ public class ProductApiController {
         return ResponseEntity.ok().body(products);
     }
 
-    @PostMapping(value = "/product")
-    public ResponseEntity<ProductDTO> productDetail(@RequestBody ProductDTO productDto) {
-        ProductEntity productEntity = productRepository.findById(Long.valueOf(productDto.getId())).get();
+    @GetMapping(value = "/products/{productId}")
+    public ResponseEntity<ProductDTO> productDetail(@PathVariable("productId") String id) {
+        ProductEntity productEntity = productRepository.findById(Long.valueOf(id)).get();
         ProductDTO product = productConverter.convert(productEntity);
         
         List<TradeEntity> tradeEntitys = productEntity.getTrades();

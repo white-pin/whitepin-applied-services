@@ -15,8 +15,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @Builder
 @ToString
-@XmlRootElement(name="user")
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(description = "회원")
 public class UserDTO {
     

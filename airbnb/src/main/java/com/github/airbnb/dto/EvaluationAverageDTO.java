@@ -14,8 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @Builder
 @ToString
-@XmlRootElement(name="EvaluationAverage")
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(description = "구매/판매 평가")
 public class EvaluationAverageDTO {
 

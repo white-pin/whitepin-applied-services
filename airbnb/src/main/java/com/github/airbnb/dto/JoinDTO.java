@@ -1,9 +1,5 @@
 package com.github.airbnb.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +14,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-@XmlRootElement(name="join")
-@XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(description = "가입")
 public class JoinDTO {
     // 이메일
