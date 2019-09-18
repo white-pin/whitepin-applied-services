@@ -1,10 +1,14 @@
 package com.github.airbnb.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,8 +48,12 @@ public class TradeEntity {
 
     @Column(name = "trade_date")
     String tradeDate;
-    //    @Temporal(TemporalType.TIMESTAMP)
-    //    java.util.Calendar tradeDate;
+    
+    @Column(name = "seller_evaluation_yn")
+    String sellerEvalYn;
+    
+    @Column(name = "buyer_evaluation_yn")
+    String buyerEvalYn;
 
     @Column(name = "evaluation_score1")
     String evaluationScore1;
@@ -73,4 +81,8 @@ public class TradeEntity {
 
     @Column(name = "evaluation_date")
     String evaluationDate;
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private ProductEntity productEntity;
 }
