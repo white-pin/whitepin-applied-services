@@ -14,10 +14,21 @@ public class UserEntityToUserDTO implements Converter<UserEntity, UserDTO> {
         UserDTO userDTO = new UserDTO();
         if (user != null) {
             userDTO = UserDTO.builder()
-                    .name(user.getName())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .sex(user.getSex())
+                    .birthday(user.getBirthday())
                     .email(user.getEmail())
+                    .telephone(user.getTelephone())
+                    .identityYn(user.getIdentityYn())
+                    .language(user.getLanguage())
+                    .monetaryUnit(user.getMonetaryUnit())
+                    .joinDate(user.getJoinDate())
+                    .country(user.getCountry())
+                    .selfInfo(user.getSelfInfo())
+                    .password(user.getPassword())
+                    .token(user.getToken())
                     .build();
-            sdafkjklaf
         }
         return userDTO;
     }

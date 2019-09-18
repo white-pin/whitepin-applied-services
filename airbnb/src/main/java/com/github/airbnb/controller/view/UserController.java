@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     
     @GetMapping(value = "/edit")
-    public String getProfile() {
+    public String profile() {
         return "profile";
+    }
+    
+    @GetMapping(value = "/show")
+    public String show() {
+        return "show";
     }
 }

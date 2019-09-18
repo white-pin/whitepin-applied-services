@@ -24,12 +24,9 @@ import lombok.ToString;
 @ApiModel(description = "상품")
 public class ProductDTO {
     private String id;
-    private String name;
     private String title;
-    private String joinDate;
     private String info;
     private String address;
-    private String language;
     private String userId;
     private List<EvaluationDTO> evaluations; 
     

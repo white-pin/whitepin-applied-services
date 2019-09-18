@@ -1,6 +1,6 @@
 package com.github.airbnb.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,18 +28,48 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "airbnb_user")
+@Table(name = "airbnb_user", indexes = { @Index(columnList = "email", unique = true) })
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(name = "name")
-    String name;
+    @Column(name = "first_name")
+    String firstName;
+
+    @Column(name = "last_name")
+    String lastName;
+
+    @Column(name = "sex")
+    String sex;
+
+    @Column(name = "birthday")
+    String birthday;
 
     @Column(name = "email")
     String email;
+
+    @Column(name = "telephone")
+    String telephone;
+
+    @Column(name = "identity_yn")
+    String identityYn;
+
+    @Column(name = "language")
+    String language;
+
+    @Column(name = "monetary_unit")
+    String monetaryUnit;
+
+    @Column(name = "country")
+    String country;
+
+    @Column(name = "self_info")
+    String selfInfo;
+
+    @Column(name = "join_date")
+    String joinDate;
 
     @Column(name = "password")
     String password;
@@ -49,5 +79,5 @@ public class UserEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Collection<ProductEntity> products;
+    private List<ProductEntity> products;
 }

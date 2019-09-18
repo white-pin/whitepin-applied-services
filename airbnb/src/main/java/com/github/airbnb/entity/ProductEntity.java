@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -34,14 +35,8 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(name = "name")
-    String name;
-
     @Column(name = "title")
     String title;
-    
-    @Column(name = "join_date")
-    String joinDate;
     
     @Column(name = "info")
     String info;
@@ -49,10 +44,11 @@ public class ProductEntity {
     @Column(name = "address")
     String address;
     
-    @Column(name = "language")
-    String language;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private List<TradeEntity> trades;
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 }

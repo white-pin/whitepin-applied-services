@@ -16,6 +16,5 @@ import lombok.ToString;
 @ToString
 @ApiModel(description = "response")
 public class ResponseDTO {
-    private String code;
     private String message;
 }

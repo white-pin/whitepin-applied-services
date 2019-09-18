@@ -14,6 +14,7 @@ import com.github.airbnb.dto.ProductDTO;
 import com.github.airbnb.dto.ProductDTO.EvaluationDTO;
 import com.github.airbnb.entity.ProductEntity;
 import com.github.airbnb.entity.TradeEntity;
+import com.github.airbnb.entity.UserEntity;
 import com.github.airbnb.repository.ProductRepository;
 
 @RestController
@@ -22,8 +23,10 @@ public class ProductApiController {
     @Autowired
     private ProductRepository productRepository;
     
+    @Autowired
     private Converter<ProductEntity, ProductDTO> productConverter;
     
+    @Autowired
     private Converter<TradeEntity, EvaluationDTO> tradeConverter;
     
     @PostMapping(value = "/products")

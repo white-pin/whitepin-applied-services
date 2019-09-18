@@ -1,80 +1,118 @@
 ------ INSERT user
-INSERT INTO airbnb_user ( email
-                    , name
+INSERT INTO airbnb_user ( id
+					, first_name
+					, last_name
+                    , sex
+                    , birthday
+                    , email
+                    , telephone
+                    , identity_yn
+                    , language
+                    , monetary_unit
+                    , country
+                    , self_info
+					, join_date
                     , password
                     , whitepin_token)
-VALUES ( 'admin'
-       , 'admin'
-       , '$2a$10$Q8cgIoqLvufVIkYZLzfi7O6rRi9eNn2/18APAmzRbW9rsA921MJuG'
-       , 'aa'
+VALUES ( 1
+	   , '길동'
+       , '홍'
+       , '남성'
+       , '1989'
+       , 'hong@naver.com'
+       , '01011112222'
+       , 'Y'
+       , '한국어'
+       , '한국 원'
+       , '대한민국'
+       , '동해번쩍 서해번쩍'
+	   , '2012'
+       , 'gildong'
+       , null
        )
 ON DUPLICATE KEY
 UPDATE
-    airbnb_user.email = airbnb_user.email
-    , airbnb_user.name = airbnb_user.name
+    airbnb_user.id = airbnb_user.id
+    , airbnb_user.first_name = airbnb_user.first_name
+    , airbnb_user.last_name = airbnb_user.last_name
+    , airbnb_user.sex = airbnb_user.sex
+    , airbnb_user.birthday = airbnb_user.birthday
+    , airbnb_user.email = airbnb_user.email
+    , airbnb_user.telephone = airbnb_user.telephone
+    , airbnb_user.identity_yn = airbnb_user.identity_yn
+    , airbnb_user.language = airbnb_user.language
+    , airbnb_user.monetary_unit = airbnb_user.monetary_unit
+    , airbnb_user.country = airbnb_user.country
+    , airbnb_user.self_info = airbnb_user.self_info
     , airbnb_user.password = airbnb_user.password
     , airbnb_user.whitepin_token = airbnb_user.whitepin_token;
+	
+------ INSERT user
+INSERT INTO airbnb_user ( id
+					, first_name
+					, last_name
+                    , sex
+                    , birthday
+                    , email
+                    , telephone
+                    , identity_yn
+                    , language
+                    , monetary_unit
+                    , country
+                    , self_info
+					, join_date
+                    , password
+                    , whitepin_token)
+VALUES ( 2
+	   , '만월'
+       , '장'
+       , '여성'
+       , '1992'
+       , 'man@naver.com'
+       , '01012345678'
+       , 'Y'
+       , '한국어'
+       , '한국 원'
+       , '대한민국'
+       , '천년동안 살고있다.'
+	   , '2011'
+       , 'manman'
+       , null
+       )
+ON DUPLICATE KEY
+UPDATE
+    airbnb_user.id = airbnb_user.id
+    , airbnb_user.first_name = airbnb_user.first_name
+    , airbnb_user.last_name = airbnb_user.last_name
+    , airbnb_user.sex = airbnb_user.sex
+    , airbnb_user.birthday = airbnb_user.birthday
+    , airbnb_user.email = airbnb_user.email
+    , airbnb_user.telephone = airbnb_user.telephone
+    , airbnb_user.identity_yn = airbnb_user.identity_yn
+    , airbnb_user.language = airbnb_user.language
+    , airbnb_user.monetary_unit = airbnb_user.monetary_unit
+    , airbnb_user.country = airbnb_user.country
+    , airbnb_user.self_info = airbnb_user.self_info
+    , airbnb_user.password = airbnb_user.password
+    , airbnb_user.whitepin_token = airbnb_user.whitepin_token;	
 
 ------ INSERT product
-INSERT INTO airbnb_product ( info
-                    , name
-                    , user_id)
-VALUES ( 'test info'
-       , 'grape'
-       , '1'
+INSERT INTO airbnb_product ( id
+					, info
+                    , title
+                    , user_id
+                    , address)
+VALUES ( 1
+	   , '1934년 지어진 한옥을 2011-2012년 에 집 전체를 리노베이션 한 고급 한옥입니다. 한옥을 독채로 빌릴 수 있기 때문에 다른 사람들의 방해를 받지 않고 이용할 수 있습니다. 호스트는 같은 집에서 생활하지 않으며, 편한 시간에 셀프체크인 할 수 있습니다. 이 한옥은 4인 가족이 쾌적하게 사용할 수 있도록 세팅되어 있습니다.'
+       , '(독채) 경복궁과 청와대 5분거리 리노베이션 한옥'
+       , 1
+	   , '서울'
        )
 ON DUPLICATE KEY
 UPDATE
-    airbnb_product.info = airbnb_product.info
-    , airbnb_product.name = airbnb_product.name
-    , airbnb_product.user_id = airbnb_product.user_id;
+    airbnb_product.id = airbnb_product.id
+    , airbnb_product.info = airbnb_product.info
+    , airbnb_product.title = airbnb_product.title
+    , airbnb_product.user_id = airbnb_product.user_id
+    , airbnb_product.address = airbnb_product.address;
 	
------- INSERT trade
-INSERT INTO airbnb_trade ( buyer_user_id
-                    , seller_user_id
-                    , product_buy_status
-                    , whitepin_trade_id
-					, trade_date
-					, evaluation_score1
-					, evaluation_score2
-					, evaluation_score3
-					, evaluation_score4
-					, evaluation_score5
-					, evaluation_score_total
-					, evaluation_review
-					, whitepin_score_key
-					, evaluation_date
-					, product_id)
-VALUES ( '1'
-       , '2'
-       , '0001'
-       , '1'
-	   , null
-	   , '1'
-	   , '1'
-	   , '1'
-	   , '1'
-	   , '1'
-	   , '1'
-	   , '1'
-	   , '1'
-	   , null	
-	   , '1'	   
-       )
-ON DUPLICATE KEY
-UPDATE
-    airbnb_trade.buyer_user_id = airbnb_trade.buyer_user_id
-    , airbnb_trade.seller_user_id = airbnb_trade.seller_user_id
-    , airbnb_trade.product_buy_status = airbnb_trade.product_buy_status
-    , airbnb_trade.whitepin_trade_id = airbnb_trade.whitepin_trade_id
-	, airbnb_trade.trade_date = airbnb_trade.trade_date
-	, airbnb_trade.evaluation_score1 = airbnb_trade.evaluation_score1
-	, airbnb_trade.evaluation_score2 = airbnb_trade.evaluation_score2
-	, airbnb_trade.evaluation_score3 = airbnb_trade.evaluation_score3
-	, airbnb_trade.evaluation_score4 = airbnb_trade.evaluation_score4
-	, airbnb_trade.evaluation_score5 = airbnb_trade.evaluation_score5
-	, airbnb_trade.evaluation_score_total = airbnb_trade.evaluation_score_total
-	, airbnb_trade.evaluation_review = airbnb_trade.evaluation_review
-	, airbnb_trade.whitepin_score_key = airbnb_trade.whitepin_score_key
-	, airbnb_trade.evaluation_date = airbnb_trade.evaluation_date
-	, airbnb_trade.product_id = airbnb_trade.product_id;

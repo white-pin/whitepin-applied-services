@@ -18,18 +18,18 @@ import static com.google.common.collect.Lists.newArrayList;
 @EnableSwagger2
 public class SwaggerConfig {
 
-//    @Bean
-//    public Docket petApi() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage( "com.github.whitepin.server.api.controller" ))
-//                .paths(PathSelectors.any())
-//                .build()
-//                .pathMapping("/")
-//                .directModelSubstitute(LocalDate.class, String.class)
-//                .genericModelSubstitutes(ResponseEntity.class)
-//                .useDefaultResponseMessages(false)
-//                .securitySchemes(newArrayList(new BasicAuth("BasicAuth")))
-//                .enableUrlTemplating(true);
-//    }
+    @Bean
+    public Docket petApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage( "com.github.airbnb.controller" ))
+                .paths(PathSelectors.any())
+                .build()
+                .pathMapping("/")
+                .directModelSubstitute(LocalDate.class, String.class)
+                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .securitySchemes(newArrayList(new BasicAuth("BasicAuth")))
+                .enableUrlTemplating(true);
+    }
 }
