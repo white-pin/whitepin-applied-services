@@ -90,8 +90,8 @@ UPDATE
     , airbnb_user.password = airbnb_user.password
     , airbnb_user.whitepin_token = airbnb_user.whitepin_token;
 
------- DELETE product
-INSERT INTO airbnb_product ( id
+------ INSERT product
+INSERT INTO airbnb_product ( product_id
                     , info
                     , title
                     , user_id
@@ -106,11 +106,13 @@ VALUES ( 1
        )
 ON DUPLICATE KEY
 UPDATE
-    airbnb_product.id = airbnb_product.id
+    airbnb_product.product_id = airbnb_product.product_id
     , airbnb_product.info = airbnb_product.info
     , airbnb_product.title = airbnb_product.title
     , airbnb_product.user_id = airbnb_product.user_id
-    , airbnb_product.address = airbnb_product.address;
+    , airbnb_product.address = airbnb_product.address
+    , airbnb_product.price = airbnb_product.price
+    ;
 
 ------ INSERT role-admin/user
 INSERT INTO airbnb_role ( role ) VALUES ( 'user' )

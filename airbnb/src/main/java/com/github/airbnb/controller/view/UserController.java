@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/views/user")
 public class UserController {
-    
+
     @GetMapping(value = "/edit")
     public ModelAndView profile() {
     	ModelAndView mav = new ModelAndView();
         return mav;
     }
-    
+
     @GetMapping(value = "/show")
     public ModelAndView show() {
     	ModelAndView mav = new ModelAndView();

@@ -3,12 +3,16 @@ package com.github.airbnb;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
+@Controller
 @SpringBootApplication
 public class AirbnbApplication {
 
@@ -75,4 +79,80 @@ public class AirbnbApplication {
             return;
         }
     }
+
+    @GetMapping("/")
+    public String rootPage() {
+        logger.info("Request index page");
+        return "index";
+    }
+
+    @GetMapping("/index")
+    public String indexPage() {
+        logger.info("Request index page");
+        return "index";
+    }
+
+    @GetMapping("/siteLogin")
+    public String loginPage() {
+        logger.info("Request login page");
+        return "login";
+    }
+
+    @GetMapping("/cart")
+    public String cartPage() {
+        logger.info("Request cart page");
+        return "cart";
+    }
+
+    @GetMapping("/tracking")
+    public String trackingPage() {
+        logger.info("Request tracking page");
+        return "tracking";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage() {
+        logger.info("Request contact page");
+        return "contact";
+    }
+
+    @GetMapping("/category")
+    public String categoryPage() {
+        logger.info("Request category page");
+        return "category";
+    }
+
+    @GetMapping("/single-product")
+    public String singleProductPage() {
+        logger.info("Request single-product page");
+        return "single-product";
+    }
+
+    @GetMapping("/checkout")
+    public String checkoutPage() {
+        logger.info("Request checkout page");
+        return "checkout";
+    }
+
+
+    @GetMapping("/blog")
+    public String blogPage() {
+        logger.info("Request blog page");
+        return "blog";
+    }
+
+    @GetMapping("/single-blog")
+    public String singleBlogPage() {
+        logger.info("Request single-blog page");
+        return "single-blog";
+    }
+
+    @GetMapping("/elements")
+    public String elementsPage() {
+        logger.info("Request elements page");
+        return "elements";
+    }
+
+
+
 }

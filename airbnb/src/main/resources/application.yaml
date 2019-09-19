@@ -12,12 +12,19 @@ spring:
         enable_lazy_load_no_trans: true
   mvc:
     view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
-#    static-path-pattern: /resources/**
+      suffix: .html
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
 
 whitepin:
   service-code: PTN0001
+  api:
+    urls:
+      base: http://localhost:3030
+      joinPartner: /user/joinPartner/
 
 ---
 # local profile

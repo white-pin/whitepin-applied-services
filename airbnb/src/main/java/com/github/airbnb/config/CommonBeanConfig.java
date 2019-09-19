@@ -25,7 +25,7 @@ public class CommonBeanConfig {
     @Bean
     public FabricContruct fabricContruct() throws Exception {
         FabricContruct fabricContruct = new FabricContruct();
-        fabricContruct.setUp();
+//        fabricContruct.setUp();
         return fabricContruct;
     }
 
