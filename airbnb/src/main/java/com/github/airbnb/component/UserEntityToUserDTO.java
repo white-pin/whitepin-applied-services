@@ -14,6 +14,7 @@ public class UserEntityToUserDTO implements Converter<UserEntity, UserDTO> {
         UserDTO userDTO = new UserDTO();
         if (user != null) {
             userDTO = UserDTO.builder()
+            		.id(String.valueOf(user.getId()))
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .sex(user.getSex())
@@ -26,7 +27,6 @@ public class UserEntityToUserDTO implements Converter<UserEntity, UserDTO> {
                     .joinDate(user.getJoinDate())
                     .country(user.getCountry())
                     .selfInfo(user.getSelfInfo())
-                    .password(user.getPassword())
                     .token(user.getToken())
                     .build();
         }

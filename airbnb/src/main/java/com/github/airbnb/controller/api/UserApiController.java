@@ -75,7 +75,7 @@ public class UserApiController {
         return new ResponseEntity<ResponseDTO>(responseDTO, httpStatus);
     }
 
-    @GetMapping(value = "/users/score/{userId}")
+    @GetMapping(value = "/users/{userId}/score")
     public ResponseEntity<UserDTO> userScore(@PathVariable("userId") long id) throws Exception {
     	Function<Double, String> dsFunction = (d) -> String.valueOf(d);
         UserEntity userEntity = userRepository.findById(id).get();

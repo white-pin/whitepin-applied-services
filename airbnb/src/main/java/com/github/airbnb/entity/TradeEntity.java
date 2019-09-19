@@ -32,6 +32,7 @@ public class TradeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "trade_id")
     long id;
 
     @Column(name = "buyer_user_id")
@@ -69,9 +70,6 @@ public class TradeEntity {
 
     @Column(name = "evaluation_score5")
     String evaluationScore5;
-
-    @Column(name = "evaluation_score_total")
-    String evaluationScoreTotal;
 
     @Column(name = "evaluation_review")
     String evaluationReview;

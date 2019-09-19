@@ -3,8 +3,10 @@ package com.github.airbnb.controller.api;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bouncycastle.jcajce.provider.digest.Keccak;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,12 @@ import org.springframework.security.crypto.codec.Hex;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.airbnb.common.ResponseCode;
+import com.github.airbnb.common.ResponseSetter;
 import com.github.airbnb.dto.ResponseDTO;
 import com.github.airbnb.dto.TradeDTO;
 import com.github.airbnb.dto.TradeDTO.TradeDTOBuilder;
@@ -50,7 +53,7 @@ public class TradeApiController {
 	@Autowired
 	private TradeRepository tradeRepository;
 
-	@Value("whitepin.service-code")
+	@Value("${whitepin.service-code}")
 	private String serviceCode;
 
 	@Autowired
@@ -60,8 +63,7 @@ public class TradeApiController {
 	private final String CONDISION_SELL = "sell";
 
 	@GetMapping(value = "/trades/{userId}/condition/{type}")
-	public ResponseEntity<List<TradeDTO>> getTrade(@PathVariable("userId") String id, @PathVariable("type") String type,
-			@RequestBody TradeDTO tradeDto) throws Exception {
+	public ResponseEntity<List<TradeDTO>> getTrade(@PathVariable("userId") String id, @PathVariable("type") String type) throws Exception {
 		List<TradeDTO> tradeDtos = new ArrayList<TradeDTO>();
 		
 		if (type.equals(CONDISION_BUY)) 
@@ -128,20 +130,66 @@ public class TradeApiController {
 		boolean createTrade = chaincodeInvocation.createTrade(fabricContruct.getChannel(), fabricContruct.getClient(),
 				whitepinTradeId, serviceCode, sellerTkn, buyerTkn);
 
-		if (createTrade) {
-			responseDTO.setCode(ResponseCode.SUCCESSFUL);
-			responseDTO.setMessage("구매하였습니다.");
-		} else {
-			responseDTO.setCode(ResponseCode.FAILED);
-			responseDTO.setMessage("구매에 실패하였습니다.");
-		}
+		if (createTrade) 
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "구매하였습니다.");
+		else
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "구매에 실패하였습니다.");
 
-		return ResponseEntity.ok().body(new ResponseDTO());
+		return ResponseEntity.ok().body(responseDTO);
 	}
 
-	@PostMapping(value = "/trades/close")
-	public ResponseEntity<ResponseDTO> closeTrade() {
-		return ResponseEntity.ok().body(new ResponseDTO());
+	@PutMapping(value = "/trades/close/{tradeId}/users/{userId}")
+	public ResponseEntity<ResponseDTO> closeTrade(@PathVariable("tradeId") String tradeId, @PathVariable("userId") String userId, @RequestBody TradeDTO tradeDto) throws Exception {
+		ResponseDTO responseDTO = new ResponseDTO();
+		
+		TradeEntity tradeEntity = tradeRepository.findById(Long.valueOf(tradeId)).get();
+		tradeEntity.setProductBuyStatus("구매확정");
+		tradeRepository.save(tradeEntity);
+		
+		UserEntity userEntity = userRepository.findById(Long.valueOf(userId)).get();
+		
+		boolean closeTrade = chaincodeInvocation.closeTrade(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), userEntity.getToken());
+		
+		if (closeTrade) 
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "구매확정 성공!!!");
+		else
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "구매 확정 실패!!!");
+		
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping(value = "/trades/evaluation")
+	public ResponseEntity<ResponseDTO> tradeEvaluation(@RequestBody TradeDTO tradeDto) throws Exception {
+		ResponseDTO responseDTO = new ResponseDTO();
+		TradeEntity tradeEntity = tradeRepository.findById(Long.valueOf(tradeDto.getTradeId())).get();
+		String scoreOrigin = Arrays.asList(tradeDto.getWhitepinEvaluationScore1(), tradeDto.getWhitepinEvaluationScore2(), tradeDto.getWhitepinEvaluationScore3()).toString().replaceAll("\\p{Z}", "");
+		String userId = "";
+		
+		if(CONDISION_BUY.equals(tradeDto.getCondisionType())) {
+			userId = tradeEntity.getBuyerUserId();
+			tradeEntity.setBuyerEvalYn("Y");
+		} else if(CONDISION_SELL.equals(tradeDto.getCondisionType())) {
+			tradeEntity.setSellerEvalYn("Y");
+			userId = tradeEntity.getSellerUserId();
+		}
+		String userTkn = userRepository.findById(Long.valueOf(userId)).get().getToken();
+		boolean enrollTempScore = chaincodeInvocation.enrollTempScore(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), scoreOrigin, userTkn);
+		
+		if(!enrollTempScore) {
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "임시 평가 점수 등록 실패!!");
+		} else {
+			tradeEntity.setEvaluationDate(getNowDate());
+			tradeEntity.setEvaluationScore1(tradeDto.getEvaluationScore1());
+			tradeEntity.setEvaluationScore2(tradeDto.getEvaluationScore2());
+			tradeEntity.setEvaluationScore3(tradeDto.getEvaluationScore3());
+			tradeEntity.setEvaluationScore4(tradeDto.getEvaluationScore4());
+			tradeEntity.setEvaluationScore5(tradeDto.getEvaluationScore5());
+			
+			tradeRepository.save(tradeEntity);
+			
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "임시 평가 점수 등록 성공!!");
+		}
+		return ResponseEntity.ok().body(responseDTO);
 	}
 
 	private String bytesToString(byte[] a) {

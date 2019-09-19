@@ -75,4 +75,9 @@ public class UserDTO {
     @ApiModelProperty(notes = "지속가능성 평균")
     String sellEvalAvg3;
     
+    @ApiModelProperty(notes = "결과 코드")
+    String responseCode;
+    
+    @ApiModelProperty(notes = "결과 메세지")
+    String responseMessage;
 }

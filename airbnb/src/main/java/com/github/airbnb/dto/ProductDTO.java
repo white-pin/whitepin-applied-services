@@ -3,6 +3,7 @@ package com.github.airbnb.dto;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,13 @@ public class ProductDTO {
     private String address;
     private String price;
     private String userId;
+    
+    @ApiModelProperty(notes = "결과 코드")
+    String responseCode;
+    
+    @ApiModelProperty(notes = "결과 메세지")
+    String responseMessage;
+    
     private List<EvaluationDTO> evaluations; 
     
     @Getter

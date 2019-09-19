@@ -17,7 +17,6 @@ public class TradeEntityToEvaluationDTO implements Converter<TradeEntity, Evalua
                     .score3(trade.getEvaluationScore3())
                     .score4(trade.getEvaluationScore4())
                     .score5(trade.getEvaluationScore5())
-                    .scoreTotal(trade.getEvaluationScoreTotal())
                     .review(trade.getEvaluationReview())
                     .date(trade.getEvaluationDate())
                     .build();
