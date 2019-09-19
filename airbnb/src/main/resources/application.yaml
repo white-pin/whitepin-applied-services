@@ -31,9 +31,9 @@ whitepin:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mariadb://localhost:3306/whitepin
+    url: jdbc:mariadb://192.168.7.30:3306/whitepin
     username: whitepin
-    password: whitepin12345
+    password: whitepin1234
     initialization-mode: always
     data: classpath:data.sql
   jpa:

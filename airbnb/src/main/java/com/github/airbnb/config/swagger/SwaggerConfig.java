@@ -22,7 +22,7 @@ public class SwaggerConfig {
     public Docket petApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage( "com.github.airbnb.controller" ))
+                .apis(RequestHandlerSelectors.basePackage( "com.github.airbnb.controller.api" ))
                 .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")
