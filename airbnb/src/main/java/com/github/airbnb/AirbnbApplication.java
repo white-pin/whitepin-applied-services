@@ -98,6 +98,12 @@ public class AirbnbApplication {
         return "login";
     }
 
+    @GetMapping("/myPage")
+    public String myPagePage() {
+        logger.info("Request myPage page");
+        return "myPage";
+    }
+
     @GetMapping("/cart")
     public String cartPage() {
         logger.info("Request cart page");
