@@ -1,15 +1,19 @@
 package com.github.airbnb;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.github.airbnb.dto.UserDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -158,7 +162,11 @@ public class AirbnbApplication {
         logger.info("Request elements page");
         return "elements";
     }
-
-
+    
+    @GetMapping("/trades")
+    public String tradesPage() {
+    	logger.info("Request trades page");
+    	return "trades";
+    }
 
 }

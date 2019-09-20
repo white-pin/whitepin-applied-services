@@ -7,6 +7,12 @@ var apiClient = (function () {
     login         : "/auth/login",
     user          : {
       info : "/users"
+    },
+    trades		  		: {
+      info 			: "/trades/{userId}/condition/{type}" ,
+      close 		: "/trades/close/{tradeId}/users/{userId}",
+      create		: "/trades/create",
+      evaluation  	: "/trades/evaluation" 
     }
   };
 
@@ -74,15 +80,15 @@ var handlebarsManager = (function () {
 var accountManager = (function () {
   const loginInfoKey = 'loginInfo';
   /**
-   * login 정보 조회
-   */
+	 * login 정보 조회
+	 */
   var getLoginInfo = function () {
     return JSON.parse(sessionStorage.getItem(loginInfoKey));
   };
 
   /**
-   * 로그인 체크
-   */
+	 * 로그인 체크
+	 */
   var isSignedIn = function () {
     var loginInfo = sessionStorage.getItem(loginInfoKey);
     return typeof loginInfo != "undefined" && loginInfo != null;
@@ -112,16 +118,16 @@ var accountManager = (function () {
   };
 
   /**
-   * 로그아웃
-   */
+	 * 로그아웃
+	 */
   var requestSignOut = function () {
     sessionStorage.removeItem(loginInfoKey);
     self.location = '/';
   };
 
   /**
-   * 상단 로그인 템플릿 갱신
-   */
+	 * 상단 로그인 템플릿 갱신
+	 */
   var updateLoginTemplate = function () {
     var $target = $('#loginTemplateDiv');
     var $templateObj = $('#loginTemplate');
