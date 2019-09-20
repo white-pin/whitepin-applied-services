@@ -32,7 +32,6 @@ public class TradeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "trade_id")
     long id;
 
     @Column(name = "buyer_user_id")

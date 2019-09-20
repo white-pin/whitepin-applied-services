@@ -22,6 +22,8 @@ import com.github.whitepin.sdk.whitepin.invocation.ChaincodeInvocation;
 import com.github.whitepin.sdk.whitepin.vo.UserVo;
 import com.github.whitepin.sdk.whitepin.vo.UserVo.SellAvg;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class UserApiController {
 
@@ -38,6 +40,7 @@ public class UserApiController {
     private ChaincodeInvocation chaincodeInvocation;
 
     @GetMapping(value = "/users/{userId}")
+    @ApiOperation(value = "userInfo", notes = "사용자 정보 조회")
     public ResponseEntity<UserDTO> userInfo(@PathVariable("userId") long userId) {
         UserEntity userEntity = userRepository.findById(userId).get();
         UserDTO user = userConverter.convert(userEntity);
@@ -45,6 +48,7 @@ public class UserApiController {
     }
 
     @PutMapping(value = "/users/{userId}")
+    @ApiOperation(value = "userUpdate", notes = "사용자 정보 수정")
     public ResponseEntity<ResponseDTO> userUpdate(@PathVariable("userId") String id, @RequestBody UserDTO userDto) {
         HttpStatus httpStatus;
         ResponseDTO responseDTO = new ResponseDTO();
@@ -76,9 +80,10 @@ public class UserApiController {
     }
 
     @GetMapping(value = "/users/{userId}/score")
-    public ResponseEntity<UserDTO> userScore(@PathVariable("userId") long id) throws Exception {
+    @ApiOperation(value = "userScore", notes = "사용자 판매 평가 점수 조회")
+    public ResponseEntity<UserDTO> userScore(@PathVariable("userId") String id) throws Exception {
     	Function<Double, String> dsFunction = (d) -> String.valueOf(d);
-        UserEntity userEntity = userRepository.findById(id).get();
+        UserEntity userEntity = userRepository.findById(Long.valueOf(id)).get();
         
         UserVo userVo = chaincodeInvocation.queryUser(fabricContruct.getChannel(), fabricContruct.getClient(), userEntity.getToken());
         SellAvg sellAvg = userVo.getSellAvg();
