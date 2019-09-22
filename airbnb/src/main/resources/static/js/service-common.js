@@ -1,8 +1,8 @@
 var apiClient = (function () {
   const endPoints = "http://localhost:9090";
   const path = {
-    whitepin      : {
-      connect : "/whitepin/connect"
+    whitepin: {
+      connect: "/whitepin/connect"
     },
     login         : "/auth/login",
     user          : {
@@ -31,7 +31,7 @@ var apiClient = (function () {
       success    : function (response) {
         successHandler(response);
       }
-      , error   : function (jqxhr) {
+      , error    : function (jqxhr) {
         errorHandler(jqxhr);
       }
     });
@@ -79,6 +79,7 @@ var handlebarsManager = (function () {
 
 var accountManager = (function () {
   const loginInfoKey = 'loginInfo';
+  const redirectKey = 'redirectPath';
   /**
 	 * login 정보 조회
 	 */
@@ -102,14 +103,22 @@ var accountManager = (function () {
       },
       contentType: "application/json",
       type       : 'POST',
-      data       : JSON.stringify({email : email, password : password}),
+      data       : JSON.stringify({email: email, password: password}),
       cache      : false,
       processData: false,
       success    : function (response) {
         console.log(response);
         sessionStorage.setItem(loginInfoKey, JSON.stringify(response));
 
-        self.location = '/';
+        let redirectPath = sessionStorage.getItem(redirectKey);
+
+        if (typeof redirectPath == "undefined" || redirectPath == null) {
+          redirectPath = '/';
+        } else {
+          sessionStorage.removeItem(redirectKey);
+        }
+
+        self.location = redirectPath;
       }, error   : function (jqxhr) {
         alert('올바르지 않은 ID/PASSWORD 입니다.');
         console.log(jqxhr);
@@ -126,8 +135,17 @@ var accountManager = (function () {
   };
 
   /**
-	 * 상단 로그인 템플릿 갱신
-	 */
+   * redirect path 추가
+   */
+  var putRedirectPath = function (path) {
+    if (!validator.isEmpty(path)) {
+      sessionStorage.setItem(redirectKey, path);
+    }
+  };
+
+  /**
+   * 상단 로그인 템플릿 갱신
+   */
   var updateLoginTemplate = function () {
     var $target = $('#loginTemplateDiv');
     var $templateObj = $('#loginTemplate');
@@ -152,6 +170,7 @@ var accountManager = (function () {
     isSignedIn         : isSignedIn,
     requestSignIn      : requestSignIn,
     requestSignOut     : requestSignOut,
+    putRedirectPath    : putRedirectPath,
     updateLoginTemplate: updateLoginTemplate
   };
 })();
