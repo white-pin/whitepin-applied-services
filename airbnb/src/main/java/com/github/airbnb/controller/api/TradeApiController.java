@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.bouncycastle.jcajce.provider.digest.Keccak;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.airbnb.common.ProductBuyStatusCode;
 import com.github.airbnb.common.ResponseCode;
 import com.github.airbnb.common.ResponseSetter;
 import com.github.airbnb.dto.ResponseDTO;
@@ -68,17 +68,18 @@ public class TradeApiController {
 	@ApiOperation(value = "trades", notes = "검색 조건에 맞는 거래 리스트 조회 ( userId :: 사용자 ID, type :: 'buy' or 'sell'")
 	public ResponseEntity<List<TradeDTO>> trades(@PathVariable("userId") String id, @PathVariable("type") String type) throws Exception {
 		List<TradeDTO> tradeDtos = new ArrayList<TradeDTO>();
-		
-		if (type.equals(CONDISION_BUY)) 
-			tradeDtos = getTradeDTOs(tradeRepository.findByBuyerUserId(id));
-		else if(type.equals(CONDISION_SELL))
-			tradeDtos = getTradeDTOs(tradeRepository.findBySellerUserId(id));
-		
+		tradeDtos = getTradeDTOs(id, type);
 		return ResponseEntity.ok().body(tradeDtos);
 	}
 	
-	private List<TradeDTO> getTradeDTOs(List<TradeEntity> tradeEntitys) {
+	private List<TradeDTO> getTradeDTOs(String id, String type) {
 		List<TradeDTO> tradeDtos = new ArrayList<TradeDTO>();
+		List<TradeEntity> tradeEntitys = new ArrayList<TradeEntity>();
+		if(CONDISION_BUY.equals(type)) 
+			tradeEntitys = tradeRepository.findByBuyerUserId(id);
+		else if(CONDISION_SELL.equals(type))
+			tradeEntitys = tradeRepository.findBySellerUserId(id);
+		
 		for (TradeEntity tradeEntity : tradeEntitys) {
 			
 			ProductEntity productEntity = tradeEntity.getProductEntity();
@@ -92,7 +93,11 @@ public class TradeApiController {
 			tradeDTOBuilder.productName(productEntity.getTitle());
 			tradeDTOBuilder.productPrice(productEntity.getPrice());
 			tradeDTOBuilder.productBuyStatus(tradeEntity.getProductBuyStatus());
-			tradeDTOBuilder.evaluationYn(tradeEntity.getBuyerEvalYn());
+			if(CONDISION_BUY.equals(type)) 
+				tradeDTOBuilder.evaluationYn(tradeEntity.getBuyerEvalYn());
+			else if(CONDISION_SELL.equals(type))
+				tradeDTOBuilder.evaluationYn(tradeEntity.getSellerEvalYn());
+			
 			tradeDtos.add(tradeDTOBuilder.build());
 		}
 		return tradeDtos;
@@ -122,7 +127,7 @@ public class TradeApiController {
 		TradeEntityBuilder tradeEntitybuilder = TradeEntity.builder();
 		tradeEntitybuilder.buyerUserId(buyerUserId);
 		tradeEntitybuilder.sellerUserId(sellerUserId);
-		tradeEntitybuilder.productBuyStatus("구매완료");
+		tradeEntitybuilder.productBuyStatus(ProductBuyStatusCode.BUY_COMPLETE);
 		tradeEntitybuilder.tradeDate(nowDate);
 		tradeEntitybuilder.whitepinTradeId(whitepinTradeId);
 		tradeEntitybuilder.buyerEvalYn("N");
@@ -149,7 +154,7 @@ public class TradeApiController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		
 		TradeEntity tradeEntity = tradeRepository.findById(Long.valueOf(tradeId)).get();
-		tradeEntity.setProductBuyStatus("구매확정");
+		tradeEntity.setProductBuyStatus(ProductBuyStatusCode.BUY_CONFIRM);
 		tradeRepository.save(tradeEntity);
 		
 		UserEntity userEntity = userRepository.findById(Long.valueOf(userId)).get();

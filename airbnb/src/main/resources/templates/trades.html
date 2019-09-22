@@ -212,9 +212,9 @@
 <section class="cart_area">
     <div class="container">
         <div class="cart_inner">
+          	<a class="main_btn" id="buyTrade" href="javascript:;">Buy</a>
+            <a class="gray_btn" id="sellTrade" href="javascript:;">Sell</a>
             <div class="table-responsive">
-            	<a class="main_btn" href="#">Buy</a>
-                <a class="gray_btn" href="#">Sell</a>
                 <table class="table">
                     <thead>
                     <tr>
@@ -387,6 +387,70 @@
         </div>
     </div>
 </footer>
+
+<script id="tradeTableTemplate" type="text/x-handlebars-template">
+	<table class="table">
+		<thead>
+		<tr>
+			<th scope="col">Product</th>
+			<th scope="col">Price</th>
+			<th scope="col">Status</th>
+			<th scope="col">Evaluation</th>
+		</tr>
+		</thead>
+		<tbody>
+		{{#tradeInfo}}
+		<tr>
+			<td>
+				<div class="media">
+					<div class="d-flex">
+						<img
+								src="img/product/single-product/cart-1.jpg"
+								alt=""
+						/>
+					</div>
+					<div class="media-body">
+						<p>{{productName}}</p>
+					</div>
+				</div>
+			</td>
+			<td>
+				<h5>${{productPrice}}</h5>
+			</td>
+			<td>
+				{{#ifCond productBuyStatus 'PBS03'}}
+    			<a 
+					href="javascript:;" 
+					class="gray_btn" 
+				>Confirm</a>
+				{{else}}
+    			<a 
+					href="javascript:;" 
+					class="main_btn confirm" 
+					data-type="buy"
+					data-tradeId={{tradeId}}
+					data-userId={{buyerUserId}} 
+				>Confirm</a>
+				{{/ifCond}}
+			</td>
+			<td>
+				{{#ifCond evaluationYn 'Y'}}
+    			<a 
+					class="gray_btn" 
+					href="javascript:;"
+				>write</a>
+				{{else}}
+    			<a 
+					href="javascript:;"
+					class="main_btn evaluation" 
+				>write</a>
+				{{/ifCond}}
+			</td>
+		</tr>
+		{{/tradeInfo}}
+		</tbody>
+	</table>
+</script>
 <!--================ End footer Area  =================-->
 
 <!-- Optional JavaScript -->
@@ -407,16 +471,25 @@
 <script src="vendors/counter-up/jquery.counterup.js"></script>
 <script src="js/theme.js"></script>
 
+<!-- handlebars js -->
+<script src="/webjars/handlebars/4.0.11-1/handlebars.min.js"></script>
 <!-- whitepin common js -->
 <script src="js/service-common.js"></script>
 
 <script type="text/javascript">
 	var userInfo = accountManager.getLoginInfo();
 
+	Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+	  if(v1 === v2) {
+	    return options.fn(this);
+	  }
+	  return options.inverse(this);
+	});
+	
 	window.trades = {
 		init : function () {
 			var trades = window.trades;
-			$(".confirm").on("click", function() {
+			 $(document).on("click",".confirm",function(event){
     			console.log("condision type : " + this.dataset.type);
     			console.log("trade id : " + this.dataset.tradeid);
     			console.log("user id : " + this.dataset.userid);
@@ -427,10 +500,61 @@
     			  }
 			})
 			
-			trades.getTrades();
+			$(document).on("click", ".evaluation", function(event) {
+				console.log("evaluation click event!!!!");
+			})
+			
+			$("#buyTrade").on("click", function() {
+				trades.getTrades('buy');
+				$(this).addClass('main_btn');
+				$(this).removeClass('gray_btn');
+				$("#sellTrade").removeClass('main_btn')
+				$("#sellTrade").addClass('gray_btn')
+			})
+			
+			$("#sellTrade").on("click", function() {
+				trades.getTrades('sell');
+				$(this).addClass('main_btn');
+				$(this).removeClass('gray_btn');
+				$("#buyTrade").removeClass('main_btn')
+				$("#buyTrade").addClass('gray_btn')
+			})
+			
+			
+			trades.getTrades('buy');
 		},
-		getTrades : function () {
-			apiClient.path.trades.info.replace("{userId}",userInfo.id).replace("","");
+		getTrades : function (condisionType) {
+// 			var path = apiClient.path.trades.info.replace("{userId}",userInfo.id).replace("{type}","buy");
+			var path = apiClient.path.trades.info.replace("{userId}","1").replace("{type}",condisionType);
+			var type = 'GET';
+			
+			var successHandler = function (response) {
+				console.log(response);
+				
+        		//핸들바 템플릿 가져오기
+        		var source = $("#tradeTableTemplate").html(); 
+
+        		//핸들바 템플릿 컴파일
+        		var template = Handlebars.compile(source); 
+
+        		//핸들바 템플릿에 바인딩할 데이터
+        		var data = {
+        				tradeInfo: response
+        		}; 
+
+        		//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
+        		var tradesHtml = template(data);
+
+        		//생성된 HTML을 DOM에 주입
+        		$('.table-responsive').empty();
+        		$('.table-responsive').append(tradesHtml);
+	        };
+
+	        var errorHandler = function (response) {
+	            console.log(response);
+	        };
+	        
+	        apiClient.request(path, type, null, successHandler, errorHandler);
 		},
 		close : function (confirmBtn, tradeId, userId) {
 	        var path = apiClient.path.trades.close.replace("{tradeId}",tradeId).replace("{userId}",userId);
