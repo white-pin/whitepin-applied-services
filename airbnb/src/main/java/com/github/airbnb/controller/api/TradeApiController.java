@@ -209,10 +209,10 @@ public class TradeApiController {
 		boolean enrollTempScore = chaincodeInvocation.enrollTempScore(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), scoreOrigin, userTkn);
 		
 		if(!enrollTempScore) {
-			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "평가 등록 실패!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "평가 등록 실패");
 		} else {
 			tradeRepository.save(tradeEntity);
-			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "평가 등록 성공!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "평가 등록 성공");
 		}
 		return ResponseEntity.ok().body(responseDTO);
 	}

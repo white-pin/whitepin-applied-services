@@ -19,13 +19,6 @@ spring:
   thymeleaf:
     cache: false
 
-whitepin:
-  service-code: PTN0001
-  api:
-    urls:
-      base: http://localhost:3030
-      joinPartner: /user/joinPartner/
-
 ---
 # local profile
 spring:
@@ -50,6 +43,13 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+
+whitepin:
+  service-code: PTN0001
+  api:
+    urls:
+      base: http://localhost:3030
+      joinPartner: /user/joinPartner/      
 
 server:
   port: 9090
@@ -90,3 +90,10 @@ logging:
     org.springframework.web: WARN
     org.springframework.security: WARN
     com.github.whitepin.server.api.controller: DEBUG
+    
+whitepin:
+  service-code: PTN0001
+  api:
+    urls:
+      base: http://192.168.7.31:3030
+      joinPartner: /user/joinPartner/    
