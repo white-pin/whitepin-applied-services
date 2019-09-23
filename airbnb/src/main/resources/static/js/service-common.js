@@ -8,11 +8,14 @@ var apiClient = (function () {
     user          : {
       info : "/users"
     },
+    products       : {
+      list : "/products"
+    },
     trades		  		: {
       info 			: "/trades/{userId}/condition/{type}" ,
       close 		: "/trades/close/{tradeId}/users/{userId}",
       create		: "/trades/create",
-      evaluation  	: "/trades/evaluation" 
+      evaluation  	: "/trades/evaluation"
     }
   };
 
