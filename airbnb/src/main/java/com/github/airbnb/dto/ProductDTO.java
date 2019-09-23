@@ -33,8 +33,8 @@ public class ProductDTO {
     @ApiModelProperty(notes = "결과 메세지")
     String responseMessage;
     
-    private List<EvaluationDTO> evaluations; 
-    
+    private List<EvaluationDTO> evaluations;
+
     @Getter
     @Setter
     @Builder

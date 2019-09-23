@@ -1,21 +1,24 @@
 var apiClient = (function () {
   const endPoints = "http://localhost:9090";
+  const whitepinEndPoints = "http://121.141.157.230:51041";
   const path = {
     whitepin: {
       connect: "/whitepin/connect"
     },
-    login         : "/auth/login",
-    user          : {
-      info : "/users"
+    login   : "/auth/login",
+    user    : {
+      info : "/users",
+      score: "/users/{userId}/score"
     },
-    products       : {
-      list : "/products"
+    products: {
+      list  : "/products",
+      detail: "/products"
     },
-    trades		  		: {
-      info 			: "/trades/{userId}/condition/{type}" ,
-      close 		: "/trades/close/{tradeId}/users/{userId}",
-      create		: "/trades/create",
-      evaluation  	: "/trades/evaluation"
+    trades  : {
+      info      : "/trades/{userId}/condition/{type}",
+      close     : "/trades/close/{tradeId}/users/{userId}",
+      create    : "/trades/create",
+      evaluation: "/trades/evaluation"
     }
   };
 
@@ -41,16 +44,16 @@ var apiClient = (function () {
   };
 
   return {
-    endPoints: endPoints,
-    path     : path,
-    request  : request
+    endPoints        : endPoints,
+    whitepinEndPoints: whitepinEndPoints,
+    path             : path,
+    request          : request
   };
 })();
 
 var handlebarsManager = (function () {
   var printTemplate = function (data, target, templateObject, type, prefixHtml, suffixHtml, clear) {
     if (clear) {
-      console.log('clear target..');
       target.empty();
     }
 
@@ -80,19 +83,47 @@ var handlebarsManager = (function () {
   };
 })();
 
+// copy from https://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+  switch (operator) {
+    case '==':
+      return (v1 == v2) ? options.fn(this) : options.inverse(this);
+    case '===':
+      return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case '!=':
+      return (v1 != v2) ? options.fn(this) : options.inverse(this);
+    case '!==':
+      return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+    case '<':
+      return (v1 < v2) ? options.fn(this) : options.inverse(this);
+    case '<=':
+      return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+    case '>':
+      return (v1 > v2) ? options.fn(this) : options.inverse(this);
+    case '>=':
+      return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+    case '&&':
+      return (v1 && v2) ? options.fn(this) : options.inverse(this);
+    case '||':
+      return (v1 || v2) ? options.fn(this) : options.inverse(this);
+    default:
+      return options.inverse(this);
+  }
+});
+
 var accountManager = (function () {
   const loginInfoKey = 'loginInfo';
   const redirectKey = 'redirectPath';
   /**
-	 * login 정보 조회
-	 */
+   * login 정보 조회
+   */
   var getLoginInfo = function () {
     return JSON.parse(sessionStorage.getItem(loginInfoKey));
   };
 
   /**
-	 * 로그인 체크
-	 */
+   * 로그인 체크
+   */
   var isSignedIn = function () {
     var loginInfo = sessionStorage.getItem(loginInfoKey);
     return typeof loginInfo != "undefined" && loginInfo != null;
@@ -130,8 +161,8 @@ var accountManager = (function () {
   };
 
   /**
-	 * 로그아웃
-	 */
+   * 로그아웃
+   */
   var requestSignOut = function () {
     sessionStorage.removeItem(loginInfoKey);
     self.location = '/';
