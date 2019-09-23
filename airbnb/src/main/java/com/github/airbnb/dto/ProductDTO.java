@@ -24,6 +24,7 @@ public class ProductDTO {
     private String info;
     private String address;
     private String price;
+    private String image;
     private String userId;
     
     @ApiModelProperty(notes = "결과 코드")

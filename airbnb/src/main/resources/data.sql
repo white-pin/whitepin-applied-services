@@ -96,13 +96,15 @@ INSERT INTO airbnb_product ( product_id
                     , title
                     , user_id
                     , address
-					, price)
+					, price
+					, image)
 VALUES ( 1
        , '1934년 지어진 한옥을 2011-2012년 에 집 전체를 리노베이션 한 고급 한옥입니다. 한옥을 독채로 빌릴 수 있기 때문에 다른 사람들의 방해를 받지 않고 이용할 수 있습니다. 호스트는 같은 집에서 생활하지 않으며, 편한 시간에 셀프체크인 할 수 있습니다. 이 한옥은 4인 가족이 쾌적하게 사용할 수 있도록 세팅되어 있습니다.'
        , '(독채) 경복궁과 청와대 5분거리 리노베이션 한옥'
        , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
 	   , '서울'
 	   , '49,900'
+	   , 'cart-1.jpg'
        )
 ON DUPLICATE KEY
 UPDATE

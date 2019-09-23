@@ -17,6 +17,7 @@ public class ProductEntityToProductDTO implements Converter<ProductEntity, Produ
                    .title(product.getTitle())
                    .address(product.getAddress())
                    .price(product.getPrice())
+                   .image(product.getImage())
                    .userId(String.valueOf(product.getUserEntity().getId()))
                 .build();
     }

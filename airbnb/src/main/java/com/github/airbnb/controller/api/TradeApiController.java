@@ -93,6 +93,8 @@ public class TradeApiController {
 			tradeDTOBuilder.productName(productEntity.getTitle());
 			tradeDTOBuilder.productPrice(productEntity.getPrice());
 			tradeDTOBuilder.productBuyStatus(tradeEntity.getProductBuyStatus());
+			tradeDTOBuilder.productImage(productEntity.getImage());
+			tradeDTOBuilder.condisionType(type);
 			if(CONDISION_BUY.equals(type)) 
 				tradeDTOBuilder.evaluationYn(tradeEntity.getBuyerEvalYn());
 			else if(CONDISION_SELL.equals(type))
@@ -132,6 +134,7 @@ public class TradeApiController {
 		tradeEntitybuilder.whitepinTradeId(whitepinTradeId);
 		tradeEntitybuilder.buyerEvalYn("N");
 		tradeEntitybuilder.sellerEvalYn("N");
+		
 		TradeEntity tradeEntity = tradeEntitybuilder.build();
 
 		productEntity.addTrade(tradeEntity);

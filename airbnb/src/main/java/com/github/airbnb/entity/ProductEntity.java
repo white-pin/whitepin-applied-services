@@ -51,6 +51,9 @@ public class ProductEntity {
     @Column(name = "price")
     String price;
     
+    @Column(name = "image")
+    String image;
+    
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private List<TradeEntity> trades = new ArrayList<TradeEntity>();

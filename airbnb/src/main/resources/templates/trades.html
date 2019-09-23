@@ -214,7 +214,7 @@
         <div class="cart_inner">
           	<a class="main_btn" id="buyTrade" href="javascript:;">Buy</a>
             <a class="gray_btn" id="sellTrade" href="javascript:;">Sell</a>
-            <div class="table-responsive">
+            <div class="table-responsive" id="buy-table">
                 <table class="table">
                     <thead>
                     <tr>
@@ -225,86 +225,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div class="media">
-                                <div class="d-flex">
-                                    <img
-                                            src="img/product/single-product/cart-1.jpg"
-                                            alt=""
-                                    />
-                                </div>
-                                <div class="media-body">
-                                    <p id="productInfo1">Minimalistic shop for multipurpose use</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <h5>$<span id="productPrice1">360.00</span></h5>
-                        </td>
-                        <td>
-                			<a 
-                				href="javascript:;" 
-                				class="main_btn confirm" 
-                				data-type="buy"
-                				data-tradeId="6"
-                				data-userId="1" 
-                			>Confirm</a>
-                        </td>
-                        <td>
-                			<a class="gray_btn" href="#">write</a>
-                        </td>
-                    </tr>
-<!--                     <tr> -->
-<!--                         <td> -->
-<!--                             <div class="media"> -->
-<!--                                 <div class="d-flex"> -->
-<!--                                     <img -->
-<!--                                             src="img/product/single-product/cart-1.jpg" -->
-<!--                                             alt="" -->
-<!--                                     /> -->
-<!--                                 </div> -->
-<!--                                 <div class="media-body"> -->
-<!--                                     <p>Minimalistic shop for multipurpose use</p> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                             <h5>$360.00</h5> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                 			<a class="gray_btn" href="#">구매확정</a> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                 			<a class="main_btn" href="#">write</a> -->
-<!--                         </td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td> -->
-<!--                             <div class="media"> -->
-<!--                                 <div class="d-flex"> -->
-<!--                                     <img -->
-<!--                                             src="img/product/single-product/cart-1.jpg" -->
-<!--                                             alt="" -->
-<!--                                     /> -->
-<!--                                 </div> -->
-<!--                                 <div class="media-body"> -->
-<!--                                     <p>Minimalistic shop for multipurpose use</p> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                             <h5>$360.00</h5> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                 			<a class="gray_btn" href="#">구매확정</a> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                 			<a class="gray_btn" href="#">write</a> -->
-<!--                         </td> -->
-<!--                     </tr> -->
                     </tbody>
                 </table>
+            </div>
+            <div class="table-responsive" id="sell-table">
             </div>
         </div>
     </div>
@@ -405,7 +329,7 @@
 				<div class="media">
 					<div class="d-flex">
 						<img
-								src="img/product/single-product/cart-1.jpg"
+								src="img/product/single-product/{{productImage}}"
 								alt=""
 						/>
 					</div>
@@ -418,7 +342,7 @@
 				<h5>${{productPrice}}</h5>
 			</td>
 			<td>
-				{{#ifCond productBuyStatus 'PBS03'}}
+				{{#ifConfirm productBuyStatus 'PBS03'}}
     			<a 
 					href="javascript:;" 
 					class="gray_btn" 
@@ -427,24 +351,24 @@
     			<a 
 					href="javascript:;" 
 					class="main_btn confirm" 
-					data-type="buy"
+					data-type={{condisionType}}
 					data-tradeId={{tradeId}}
 					data-userId={{buyerUserId}} 
 				>Confirm</a>
-				{{/ifCond}}
+				{{/ifConfirm}}
 			</td>
 			<td>
-				{{#ifCond evaluationYn 'Y'}}
-    			<a 
-					class="gray_btn" 
-					href="javascript:;"
-				>write</a>
-				{{else}}
+				{{#ifEvaluation evaluationYn 'N' productBuyStatus 'PBS03'}}
     			<a 
 					href="javascript:;"
 					class="main_btn evaluation" 
 				>write</a>
-				{{/ifCond}}
+				{{else}}
+    			<a 
+					class="gray_btn" 
+					href="javascript:;"
+				>write</a>
+				{{/ifEvaluation}}
 			</td>
 		</tr>
 		{{/tradeInfo}}
@@ -479,12 +403,19 @@
 <script type="text/javascript">
 	var userInfo = accountManager.getLoginInfo();
 
-	Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+	Handlebars.registerHelper('ifConfirm', function(v1, v2, options) {
 	  if(v1 === v2) {
 	    return options.fn(this);
 	  }
 	  return options.inverse(this);
 	});
+	
+	Handlebars.registerHelper('ifEvaluation', function(v1, v2, v3, v4, options) {
+		  if(v1 === v2 && v3 === v4) {
+		    return options.fn(this);
+		  }
+		  return options.inverse(this);
+		});
 	
 	window.trades = {
 		init : function () {
@@ -494,7 +425,7 @@
     			console.log("trade id : " + this.dataset.tradeid);
     			console.log("user id : " + this.dataset.userid);
     			if (confirm("Will you confirm the purchase?") == true){    
-    				trades.close(this, this.dataset.tradeid, this.dataset.userid);
+    				trades.close(this, this.dataset.tradeid, this.dataset.userid, this.dataset.type);
     			  }else{   
     			      return;
     			  }
@@ -505,7 +436,8 @@
 			})
 			
 			$("#buyTrade").on("click", function() {
-				trades.getTrades('buy');
+				$("#buy-table").show();
+				$("#sell-table").hide();
 				$(this).addClass('main_btn');
 				$(this).removeClass('gray_btn');
 				$("#sellTrade").removeClass('main_btn')
@@ -513,7 +445,8 @@
 			})
 			
 			$("#sellTrade").on("click", function() {
-				trades.getTrades('sell');
+				$("#sell-table").show();
+				$("#buy-table").hide();
 				$(this).addClass('main_btn');
 				$(this).removeClass('gray_btn');
 				$("#buyTrade").removeClass('main_btn')
@@ -522,10 +455,12 @@
 			
 			
 			trades.getTrades('buy');
+			trades.getTrades('sell');
+			$("#sell-table").hide();
 		},
 		getTrades : function (condisionType) {
-// 			var path = apiClient.path.trades.info.replace("{userId}",userInfo.id).replace("{type}","buy");
-			var path = apiClient.path.trades.info.replace("{userId}","1").replace("{type}",condisionType);
+			var path = apiClient.path.trades.info.replace("{userId}",userInfo.id).replace("{type}",condisionType);
+// 			var path = apiClient.path.trades.info.replace("{userId}","1").replace("{type}",condisionType);
 			var type = 'GET';
 			
 			var successHandler = function (response) {
@@ -546,8 +481,14 @@
         		var tradesHtml = template(data);
 
         		//생성된 HTML을 DOM에 주입
-        		$('.table-responsive').empty();
-        		$('.table-responsive').append(tradesHtml);
+        		var table;
+        		if(condisionType == 'buy') 
+        			table = $("#buy-table");
+        		else if(condisionType == 'sell')
+        			table = $("#sell-table");
+        		
+        		table.empty();
+        		table.append(tradesHtml);
 	        };
 
 	        var errorHandler = function (response) {
@@ -556,7 +497,7 @@
 	        
 	        apiClient.request(path, type, null, successHandler, errorHandler);
 		},
-		close : function (confirmBtn, tradeId, userId) {
+		close : function (confirmBtn, tradeId, userId, condisionType) {
 	        var path = apiClient.path.trades.close.replace("{tradeId}",tradeId).replace("{userId}",userId);
 	        var type = 'PUT';
 		
@@ -567,8 +508,9 @@
 	        		confirmBtn.classList.remove('main_btn', 'confirm');
 					confirmBtn.classList.toggle('gray_btn');
 					$(confirmBtn).unbind('click','');	
+					alert(response.message);
+					trades.getTrades(condisionType);
 	        	} 
-				alert(response.message);
 	        };
 
 	        var errorHandler = function (response) {

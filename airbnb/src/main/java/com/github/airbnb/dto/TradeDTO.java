@@ -41,6 +41,9 @@ public class TradeDTO {
 	@ApiModelProperty(notes = "결제상태")
 	private String productBuyStatus;
 	
+	@ApiModelProperty(notes = "상품 이미지")
+	private String productImage;
+	
 	@ApiModelProperty(notes = "평가여부")
 	private String evaluationYn;
 	
