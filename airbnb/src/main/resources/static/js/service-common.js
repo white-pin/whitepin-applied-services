@@ -1,5 +1,5 @@
 var apiClient = (function () {
-  const endPoints = "http://localhost:9090";
+  const endPoints = '';
   const whitepinEndPoints = "http://121.141.157.230:51041";
   const path = {
     whitepin: {
@@ -23,7 +23,7 @@ var apiClient = (function () {
   };
 
   var request = function (path, method, data, successHandler, errorHandler) {
-
+    console.log('url::',endPoints + path);
     $.ajax({
       url        : endPoints + path,
       headers    : {
