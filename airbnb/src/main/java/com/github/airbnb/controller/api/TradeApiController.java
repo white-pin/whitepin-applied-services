@@ -35,8 +35,11 @@ import com.github.airbnb.repository.UserRepository;
 import com.github.whitepin.sdk.contruct.FabricContruct;
 import com.github.whitepin.sdk.whitepin.invocation.ChaincodeInvocation;
 
+import ch.qos.logback.classic.Logger;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 public class TradeApiController {
 
@@ -174,9 +177,9 @@ public class TradeApiController {
 		boolean closeTrade = chaincodeInvocation.closeTrade(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), userEntity.getToken());
 		
 		if (closeTrade) 
-			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "확정 성공!!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "확정 성공");
 		else
-			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "확정 실패!!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "확정 실패");
 		
 		return ResponseEntity.ok().body(responseDTO);
 	}
@@ -206,6 +209,11 @@ public class TradeApiController {
 		}
 		
 		String userTkn = userRepository.findById(Long.valueOf(userId)).get().getToken();
+		
+		logger.info("user token :: " + userTkn);
+		logger.info("whitepin trade id :: " + tradeEntity.getWhitepinTradeId());
+		logger.info("scoreOrigin :: " + scoreOrigin);
+		
 		boolean enrollTempScore = chaincodeInvocation.enrollTempScore(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), scoreOrigin, userTkn);
 		
 		if(!enrollTempScore) {
