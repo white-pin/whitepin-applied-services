@@ -48,7 +48,8 @@ whitepin:
   service-code: PTN0001
   api:
     urls:
-      base: http://localhost:3030
+      ip: localhost
+      port: 3030
       joinPartner: /user/joinPartner/      
 
 server:
@@ -95,5 +96,6 @@ whitepin:
   service-code: PTN0001
   api:
     urls:
-      base: http://192.168.7.31:3030
+      ip: 192.168.7.31
+      port: 3030
       joinPartner: /user/joinPartner/    

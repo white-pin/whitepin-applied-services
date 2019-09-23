@@ -38,8 +38,11 @@ public class WhitepinApiController {
     @Value("${whitepin.service-code}")
     private String serviceCode;
 
-    @Value("${whitepin.api.urls.base}")
-    private String whitepinBaseUrl;
+    @Value("${whitepin.api.urls.ip}")
+    private String whitepinIp;
+    
+    @Value("${whitepin.api.urls.port}")
+    private int whitepinPort;
 
     @Value("${whitepin.api.urls.joinPartner}")
     private String whitepinJoinPartner;
@@ -53,13 +56,13 @@ public class WhitepinApiController {
 
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(
-                new AuthScope("localhost", 3030),
+                new AuthScope(whitepinIp, whitepinPort),
                 new UsernamePasswordCredentials(whitepinConnectDTO.getWhitepinId(), whitepinConnectDTO.getWhitepinPassword()));
         CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultCredentialsProvider(credsProvider)
                 .build();
         try {
-            HttpPost httpPost = new HttpPost(whitepinBaseUrl+whitepinJoinPartner+serviceCode);
+            HttpPost httpPost = new HttpPost("http://"+whitepinIp+":"+whitepinPort+whitepinJoinPartner+serviceCode);
 
             System.out.println("Executing request " + httpPost.getRequestLine());
             CloseableHttpResponse response = httpclient.execute(httpPost);
