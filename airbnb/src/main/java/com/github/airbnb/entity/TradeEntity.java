@@ -42,6 +42,9 @@ public class TradeEntity {
 
     @Column(name = "product_buy_status")
     String productBuyStatus;
+    
+    @Column(name = "product_sell_status")
+    String productSellStatus;
 
     @Column(name = "whitepin_trade_id")
     String whitepinTradeId;

@@ -22,5 +22,16 @@ public class PageController {
         return "product-detail";
     }
 
+    @GetMapping("/trades")
+    public String getTradesPages() {
+    	logger.info("Request trades page");
+        return "trades";
+    }
+    
+    @GetMapping("/review")
+    public String getReviewPage() {
+    	logger.info("Request review page");
+    	return "review";
+    }
     // -- tag : product
 }

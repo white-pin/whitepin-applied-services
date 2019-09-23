@@ -111,6 +111,22 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
   }
 });
 
+var sessionManager = (function () {
+    var setSession = function (key, value) {
+        sessionStorage.setItem(key, JSON.stringify(value));
+    }
+    
+    var getSession = function (key) {
+        return JSON.parse(sessionStorage.getItem(key));
+    }
+    
+    return {
+        setSession       : setSession,
+        getSession       : getSession
+      };
+})();
+
+
 var accountManager = (function () {
   const loginInfoKey = 'loginInfo';
   const redirectKey = 'redirectPath';

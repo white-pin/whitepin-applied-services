@@ -162,11 +162,4 @@ public class AirbnbApplication {
         logger.info("Request elements page");
         return "elements";
     }
-    
-    @GetMapping("/trades")
-    public String tradesPage() {
-    	logger.info("Request trades page");
-    	return "trades";
-    }
-
 }

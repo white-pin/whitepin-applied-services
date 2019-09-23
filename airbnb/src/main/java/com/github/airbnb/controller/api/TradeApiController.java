@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.airbnb.common.ProductBuyStatusCode;
+import com.github.airbnb.common.ProductStatusCode;
 import com.github.airbnb.common.ResponseCode;
 import com.github.airbnb.common.ResponseSetter;
 import com.github.airbnb.dto.ResponseDTO;
@@ -92,13 +92,17 @@ public class TradeApiController {
 			tradeDTOBuilder.buyerUserName(userEntity.getLastName() + userEntity.getFirstName());
 			tradeDTOBuilder.productName(productEntity.getTitle());
 			tradeDTOBuilder.productPrice(productEntity.getPrice());
-			tradeDTOBuilder.productBuyStatus(tradeEntity.getProductBuyStatus());
 			tradeDTOBuilder.productImage(productEntity.getImage());
 			tradeDTOBuilder.condisionType(type);
-			if(CONDISION_BUY.equals(type)) 
+			if(CONDISION_BUY.equals(type)) {
 				tradeDTOBuilder.evaluationYn(tradeEntity.getBuyerEvalYn());
-			else if(CONDISION_SELL.equals(type))
+				tradeDTOBuilder.productStatus(tradeEntity.getProductBuyStatus());
+			}
+			else if(CONDISION_SELL.equals(type)) {
 				tradeDTOBuilder.evaluationYn(tradeEntity.getSellerEvalYn());
+				tradeDTOBuilder.productStatus(tradeEntity.getProductSellStatus());
+				
+			}
 			
 			tradeDtos.add(tradeDTOBuilder.build());
 		}
@@ -129,7 +133,8 @@ public class TradeApiController {
 		TradeEntityBuilder tradeEntitybuilder = TradeEntity.builder();
 		tradeEntitybuilder.buyerUserId(buyerUserId);
 		tradeEntitybuilder.sellerUserId(sellerUserId);
-		tradeEntitybuilder.productBuyStatus(ProductBuyStatusCode.BUY_COMPLETE);
+		tradeEntitybuilder.productBuyStatus(ProductStatusCode.BUY_COMPLETE);
+		tradeEntitybuilder.productSellStatus(ProductStatusCode.SELL_COMPLETE);
 		tradeEntitybuilder.tradeDate(nowDate);
 		tradeEntitybuilder.whitepinTradeId(whitepinTradeId);
 		tradeEntitybuilder.buyerEvalYn("N");
@@ -157,7 +162,11 @@ public class TradeApiController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		
 		TradeEntity tradeEntity = tradeRepository.findById(Long.valueOf(tradeId)).get();
-		tradeEntity.setProductBuyStatus(ProductBuyStatusCode.BUY_CONFIRM);
+		if(tradeEntity.getSellerUserId().equals(userId))
+			tradeEntity.setProductSellStatus(ProductStatusCode.SELL_CONFIRM);
+		else if(tradeEntity.getBuyerUserId().equals(userId))
+			tradeEntity.setProductBuyStatus(ProductStatusCode.BUY_CONFIRM);
+			
 		tradeRepository.save(tradeEntity);
 		
 		UserEntity userEntity = userRepository.findById(Long.valueOf(userId)).get();
@@ -165,9 +174,9 @@ public class TradeApiController {
 		boolean closeTrade = chaincodeInvocation.closeTrade(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), userEntity.getToken());
 		
 		if (closeTrade) 
-			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "구매확정 성공!!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "확정 성공!!!");
 		else
-			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "구매 확정 실패!!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "확정 실패!!!");
 		
 		return ResponseEntity.ok().body(responseDTO);
 	}
@@ -200,10 +209,10 @@ public class TradeApiController {
 		boolean enrollTempScore = chaincodeInvocation.enrollTempScore(fabricContruct.getChannel(), fabricContruct.getClient(), tradeEntity.getWhitepinTradeId(), scoreOrigin, userTkn);
 		
 		if(!enrollTempScore) {
-			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "임시 평가 점수 등록 실패!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.FAILED, "평가 등록 실패!!");
 		} else {
 			tradeRepository.save(tradeEntity);
-			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "임시 평가 점수 등록 성공!!");
+			ResponseSetter.setResponse(responseDTO, ResponseCode.SUCCESSFUL, "평가 등록 성공!!");
 		}
 		return ResponseEntity.ok().body(responseDTO);
 	}

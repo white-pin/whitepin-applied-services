@@ -8,45 +8,27 @@
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="icon" href="img/favicon.png" type="image/png"/>
-    <title>Eiser ecommerce</title>
+    <title>Whitepin applied service</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="vendors/linericon/style.css"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/themify-icons.css"/>
-    <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="vendors/lightbox/simpleLightbox.css"/>
-    <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css"/>
-    <link rel="stylesheet" href="vendors/animate-css/animate.css"/>
-    <link rel="stylesheet" href="vendors/jquery-ui/jquery-ui.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/vendors/linericon/style.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/themify-icons.css"/>
+    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="/vendors/lightbox/simpleLightbox.css"/>
+    <link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css"/>
+    <link rel="stylesheet" href="/vendors/animate-css/animate.css"/>
+    <link rel="stylesheet" href="/vendors/jquery-ui/jquery-ui.css"/>
     <!-- main css -->
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/responsive.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/responsive.css"/>
 </head>
 
 <body>
 <!--================Header Menu Area =================-->
 <header class="header_area">
-    <div class="top_menu">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="float-left">
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="float-right">
-                        <ul class="right_side">
-                            <li>
-                                <a href="/siteLogin">
-                                    login
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+     <div class="top_menu">
+        <div id="loginTemplateDiv"></div>
     </div>
     <div class="main_menu">
         <div class="container">
@@ -153,6 +135,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/contact">Contact</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/views/trades">Trade</a>
+                                </li>
                             </ul>
                         </div>
 
@@ -212,10 +197,10 @@
 <section class="cart_area">
     <div class="container">
         <div class="cart_inner">
-          	<a class="main_btn" id="buyTrade" href="javascript:;">Buy</a>
-            <a class="gray_btn" id="sellTrade" href="javascript:;">Sell</a>
-            <div class="table-responsive" id="buy-table">
-                <table class="table">
+          	<a class="main_btn" id="buyTrade" href="javascript:;">구매</a>
+            <a class="gray_btn" id="sellTrade" href="javascript:;">판매</a>
+            <div class="table-responsive">
+                <table class="table" id="buy-table">
                     <thead>
                     <tr>
                         <th scope="col">Product</th>
@@ -224,11 +209,23 @@
                         <th scope="col">Evaluation</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="buy-body">
                     </tbody>
                 </table>
             </div>
-            <div class="table-responsive" id="sell-table">
+            <div class="table-responsive">
+            	<table class="table" id="sell-table" style="display : none;">
+                    <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Evaluation</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sell-body">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -311,25 +308,51 @@
         </div>
     </div>
 </footer>
+<!--================ End footer Area  =================-->
+
+<script id="loginTemplate" type="text/x-handlebars-template">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="float-left">
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="float-right">
+                    <ul class="right_side">
+                        {{#if isSignedIn}}
+                        <li>
+                            <a href="/myPage">
+                                myPage
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" id="logout">
+                                logout
+                            </a>
+                        </li>
+                        {{else}}
+                        <li>
+                            <a href="/siteLogin">
+                                login
+                            </a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 
 <script id="tradeTableTemplate" type="text/x-handlebars-template">
-	<table class="table">
-		<thead>
-		<tr>
-			<th scope="col">Product</th>
-			<th scope="col">Price</th>
-			<th scope="col">Status</th>
-			<th scope="col">Evaluation</th>
-		</tr>
-		</thead>
-		<tbody>
 		{{#tradeInfo}}
 		<tr>
 			<td>
 				<div class="media">
 					<div class="d-flex">
 						<img
-								src="img/product/single-product/{{productImage}}"
+								src="/img/product/single-product/{{productImage}}"
 								alt=""
 						/>
 					</div>
@@ -339,10 +362,11 @@
 				</div>
 			</td>
 			<td>
-				<h5>${{productPrice}}</h5>
+				<h5>￦{{productPrice}}</h5>
 			</td>
+			{{#ifEquals2 condisionType 'buy'}}
 			<td>
-				{{#ifConfirm productBuyStatus 'PBS03'}}
+				{{#ifEquals2 productStatus 'PBS03'}}
     			<a 
 					href="javascript:;" 
 					class="gray_btn" 
@@ -355,62 +379,95 @@
 					data-tradeId={{tradeId}}
 					data-userId={{buyerUserId}} 
 				>Confirm</a>
-				{{/ifConfirm}}
+				{{/ifEquals2}}
 			</td>
 			<td>
-				{{#ifEvaluation evaluationYn 'N' productBuyStatus 'PBS03'}}
+				{{#ifEquals4 evaluationYn 'N' productStatus 'PBS03'}}
+    				<a 
+						href="javascript:;"
+						class="main_btn evaluation" 
+						data-type={{condisionType}}
+						data-tradeId={{tradeId}}
+					>write</a>
+					{{else}}
+    				<a 
+						class="gray_btn" 
+						href="javascript:;"
+					>write</a>
+					{{/ifEquals4}}
+			</td>
+			{{else}}
+			<td>
+				{{#ifEquals2 productStatus 'PSS03'}}
     			<a 
-					href="javascript:;"
-					class="main_btn evaluation" 
-				>write</a>
+					href="javascript:;" 
+					class="gray_btn" 
+				>Confirm</a>
 				{{else}}
     			<a 
-					class="gray_btn" 
-					href="javascript:;"
-				>write</a>
-				{{/ifEvaluation}}
+					href="javascript:;" 
+					class="main_btn confirm" 
+					data-type={{condisionType}}
+					data-tradeId={{tradeId}}
+					data-userId={{buyerUserId}} 
+				>Confirm</a>
+				{{/ifEquals2}}
+			</td>
+			<td>
+				{{#ifEquals4 evaluationYn 'N' productStatus 'PSS03'}}
+    				<a 
+						href="javascript:;"
+						class="main_btn evaluation" 
+						data-type={{condisionType}}
+						data-tradeId={{tradeId}}
+					>write</a>
+					{{else}}
+    				<a 
+						class="gray_btn" 
+						href="javascript:;"
+					>write</a>
+					{{/ifEquals4}}
+			</td>
+			{{/ifEquals2}}
 			</td>
 		</tr>
 		{{/tradeInfo}}
-		</tbody>
-	</table>
 </script>
-<!--================ End footer Area  =================-->
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/stellar.js"></script>
-<script src="vendors/lightbox/simpleLightbox.min.js"></script>
-<script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
-<script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
-<script src="vendors/isotope/isotope-min.js"></script>
-<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-<script src="js/jquery.ajaxchimp.min.js"></script>
-<script src="js/mail-script.js"></script>
-<script src="vendors/jquery-ui/jquery-ui.js"></script>
-<script src="vendors/counter-up/jquery.waypoints.min.js"></script>
-<script src="vendors/counter-up/jquery.counterup.js"></script>
-<script src="js/theme.js"></script>
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/stellar.js"></script>
+<script src="/vendors/lightbox/simpleLightbox.min.js"></script>
+<script src="/vendors/nice-select/js/jquery.nice-select.min.js"></script>
+<script src="/vendors/isotope/imagesloaded.pkgd.min.js"></script>
+<script src="/vendors/isotope/isotope-min.js"></script>
+<script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/vendors/jquery-ui/jquery-ui.js"></script>
+<script src="/vendors/counter-up/jquery.waypoints.min.js"></script>
+<script src="/vendors/counter-up/jquery.counterup.js"></script>
+<script src="/js/theme.js"></script>
 
 <!-- handlebars js -->
 <script src="/webjars/handlebars/4.0.11-1/handlebars.min.js"></script>
 <!-- whitepin common js -->
-<script src="js/service-common.js"></script>
+<script src="/js/service-common.js"></script>
 
 <script type="text/javascript">
 	var userInfo = accountManager.getLoginInfo();
 
-	Handlebars.registerHelper('ifConfirm', function(v1, v2, options) {
+	Handlebars.registerHelper('ifEquals2', function(v1, v2, options) {
 	  if(v1 === v2) {
 	    return options.fn(this);
 	  }
 	  return options.inverse(this);
 	});
 	
-	Handlebars.registerHelper('ifEvaluation', function(v1, v2, v3, v4, options) {
+	Handlebars.registerHelper('ifEquals4', function(v1, v2, v3, v4, options) {
 		  if(v1 === v2 && v3 === v4) {
 		    return options.fn(this);
 		  }
@@ -419,20 +476,45 @@
 	
 	window.trades = {
 		init : function () {
+			accountManager.updateLoginTemplate();
+
+            /**
+             * form enter 처리
+             */
+            $('input[type="text"]').keydown(function (e) {
+                if (e.keyCode !== 13) {
+                    return;
+                }
+
+                if (e.target.id == 'searchInput') {
+                    $('#btnSearch').trigger('click');
+                } else {
+                    e.preventDefault();
+                }
+            });
+
+            $('#logout').on('click', function () {
+                accountManager.requestSignOut();
+            });
+            
 			var trades = window.trades;
 			 $(document).on("click",".confirm",function(event){
     			console.log("condision type : " + this.dataset.type);
     			console.log("trade id : " + this.dataset.tradeid);
     			console.log("user id : " + this.dataset.userid);
-    			if (confirm("Will you confirm the purchase?") == true){    
-    				trades.close(this, this.dataset.tradeid, this.dataset.userid, this.dataset.type);
+    			if (confirm("거래를 확정하시겠습니까?") == true){    
+    				trades.close(this, this.dataset.tradeid, userInfo.id, this.dataset.type);
     			  }else{   
     			      return;
     			  }
 			})
 			
 			$(document).on("click", ".evaluation", function(event) {
-				console.log("evaluation click event!!!!");
+				var key = "evaluation"
+				var value = {tradeId : this.dataset.tradeid, type : this.dataset.type};
+				
+				sessionManager.setSession(key, value);
+				location.replace("/views/review");
 			})
 			
 			$("#buyTrade").on("click", function() {
@@ -460,7 +542,6 @@
 		},
 		getTrades : function (condisionType) {
 			var path = apiClient.path.trades.info.replace("{userId}",userInfo.id).replace("{type}",condisionType);
-// 			var path = apiClient.path.trades.info.replace("{userId}","1").replace("{type}",condisionType);
 			var type = 'GET';
 			
 			var successHandler = function (response) {
@@ -481,14 +562,14 @@
         		var tradesHtml = template(data);
 
         		//생성된 HTML을 DOM에 주입
-        		var table;
+        		var tableBody;
         		if(condisionType == 'buy') 
-        			table = $("#buy-table");
+        			tableBody = $("#buy-body");
         		else if(condisionType == 'sell')
-        			table = $("#sell-table");
+        			tableBody = $("#sell-body");
         		
-        		table.empty();
-        		table.append(tradesHtml);
+        		tableBody.empty();
+        		tableBody.append(tradesHtml);
 	        };
 
 	        var errorHandler = function (response) {

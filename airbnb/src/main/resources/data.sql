@@ -103,7 +103,7 @@ VALUES ( 1
        , '(독채) 경복궁과 청와대 5분거리 리노베이션 한옥'
        , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
 	   , '서울'
-	   , '49,900'
+	   , '49,000'
 	   , 'cart-1.jpg'
        )
 ON DUPLICATE KEY

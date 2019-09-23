@@ -39,7 +39,7 @@ public class TradeDTO {
 	private String productPrice;
 	
 	@ApiModelProperty(notes = "결제상태")
-	private String productBuyStatus;
+	private String productStatus;
 	
 	@ApiModelProperty(notes = "상품 이미지")
 	private String productImage;
