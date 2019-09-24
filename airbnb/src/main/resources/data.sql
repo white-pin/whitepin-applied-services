@@ -23,7 +23,7 @@ VALUES ( '길동'
        , '한국어'
        , '한국 원'
        , '대한민국'
-       , '동해번쩍 서해번쩍'
+       , '안녕하세요, 저는 Mary입니다.\r\n저는 에어비앤비 슈퍼호스트이며, 화이트핀 인증을 완료한 우수 판매자입니다. 홍대나 명동 등 주요 관광지 위주로 숙소를 관리하고 있는만큼, 한국을 방문하고 여행하는 모든 여행자분들의 안전하고 즐거운 여행을 위해 최선을 다하겠습니다.\r\n한국에 오게 된다면 언제든지 다시 찾아오고 싶은 숙소, mary house로 여러분을 초대합니다.'
 	   , '2012'
        , 'gildong'
        , null
@@ -99,12 +99,12 @@ INSERT INTO airbnb_product ( product_id
 					, price
 					, image)
 VALUES ( 1
-       , '1934년 지어진 한옥을 2011-2012년 에 집 전체를 리노베이션 한 고급 한옥입니다. 한옥을 독채로 빌릴 수 있기 때문에 다른 사람들의 방해를 받지 않고 이용할 수 있습니다. 호스트는 같은 집에서 생활하지 않으며, 편한 시간에 셀프체크인 할 수 있습니다. 이 한옥은 4인 가족이 쾌적하게 사용할 수 있도록 세팅되어 있습니다.'
-       , '(독채) 경복궁과 청와대 5분거리 리노베이션 한옥'
+       , 'Mary House는 버스 정류장과 지하철역에서 도보로 5 분 거리에 있으며 서울에서 여행하기가 매우 쉽습니다. 또한 버스로 15 분이면 동대문 및 명동 지역으로 이동하기 쉽습니다. Mary House 근처에는 가장 크고 오래된 전통 경동 양녕 시장이 있으며 합리적인 가격으로 구입하십시오. Mary House는 매우 조용한 주거 지역에 위치하고 있습니다. MaryHouse는 공식적으로 정부의 인증을 받았으며 법적으로 운영됩니다.'
+       , 'Calm and Friendly Mary House''s White Room in seoul'
        , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
 	   , '서울'
-	   , '49,000'
-	   , 'cart-1.jpg'
+	   , '66,230'
+	   , 'room-1.jpg'
        )
 ON DUPLICATE KEY
 UPDATE
@@ -113,8 +113,57 @@ UPDATE
     , airbnb_product.title = airbnb_product.title
     , airbnb_product.user_id = airbnb_product.user_id
     , airbnb_product.address = airbnb_product.address
-    , airbnb_product.price = airbnb_product.price
-    ;
+    , airbnb_product.price = airbnb_product.price;
+	
+------ INSERT product
+INSERT INTO airbnb_product ( product_id
+                    , info
+                    , title
+                    , user_id
+                    , address
+					, price
+					, image)
+VALUES ( 2
+       , ''
+       , 'Mapo basecamp'
+       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
+	   , '서울'
+	   , '77,540'
+	   , 'room-2.jpg'
+       )
+ON DUPLICATE KEY
+UPDATE
+    airbnb_product.product_id = airbnb_product.product_id
+    , airbnb_product.info = airbnb_product.info
+    , airbnb_product.title = airbnb_product.title
+    , airbnb_product.user_id = airbnb_product.user_id
+    , airbnb_product.address = airbnb_product.address
+    , airbnb_product.price = airbnb_product.price;
+
+------ INSERT product
+INSERT INTO airbnb_product ( product_id 
+                    , info
+                    , title
+                    , user_id
+                    , address
+					, price
+					, image)
+VALUES ( 3
+       , ''
+       , 'Private terrace! 3mins from AREX station'
+       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
+	   , '서울'
+	   , '48,550'
+	   , 'room-3.jpg'
+       )
+ON DUPLICATE KEY
+UPDATE
+    airbnb_product.product_id = airbnb_product.product_id
+    , airbnb_product.info = airbnb_product.info
+    , airbnb_product.title = airbnb_product.title
+    , airbnb_product.user_id = airbnb_product.user_id
+    , airbnb_product.address = airbnb_product.address
+    , airbnb_product.price = airbnb_product.price;	
 
 ------ INSERT role-admin/user
 INSERT INTO airbnb_role ( role ) VALUES ( 'user' )
