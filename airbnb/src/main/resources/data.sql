@@ -125,7 +125,7 @@ INSERT INTO airbnb_product ( product_id
 					, image)
 VALUES ( 2
        , ''
-       , 'Mapo basecamp'
+       , '[Hongdae 2 min] 홍대입구역 8번출구 걸어서 2분 거리! 최고 역세권, 가성비 최고 아늑한 방 #1'
        , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
 	   , '서울'
 	   , '77,540'
