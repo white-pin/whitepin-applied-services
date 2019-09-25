@@ -50,7 +50,7 @@ whitepin:
     urls:
       ip: localhost
       port: 3030
-      joinPartner: /user/joinPartner/      
+      joinPartner: /user/joinPartner/
 
 server:
   port: 9090
@@ -61,6 +61,18 @@ logging:
     org.springframework.web: WARN
     org.springframework.security: WARN
     com.github.whitepin.server.api.controller: DEBUG
+
+fabric:
+  caName: ca.whitepin.com
+  caLocation: http://192.168.7.30:7054
+  userName: Admin@Whitepin
+  userPassword: WhitepinPWD
+  orgMsp: WhitepinMSP
+  ordererName: orderer0.whitepin.com
+  ordererLocation: grpc://192.168.7.30:7050
+  peerName1: peer0.whitepin.com
+  peerLocation1: grpc://192.168.7.30:7051
+  channelName: whitepin-main-channel
 
 ---
 # dev profile
@@ -91,11 +103,23 @@ logging:
     org.springframework.web: WARN
     org.springframework.security: WARN
     com.github.whitepin.server.api.controller: DEBUG
-    
+
 whitepin:
   service-code: PTN0001
   api:
     urls:
       ip: 192.168.7.31
       port: 3030
-      joinPartner: /user/joinPartner/    
+      joinPartner: /user/joinPartner/
+
+fabric:
+  caName: ca.whitepin.com
+  caLocation: http://192.168.7.30:7054
+  userName: Admin@Whitepin
+  userPassword: WhitepinPWD
+  orgMsp: WhitepinMSP
+  ordererName: orderer0.whitepin.com
+  ordererLocation: grpc://192.168.7.30:7050
+  peerName1: peer0.whitepin.com
+  peerLocation1: grpc://192.168.7.30:7051
+  channelName: whitepin-main-channel
