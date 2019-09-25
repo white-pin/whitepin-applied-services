@@ -1,9 +1,12 @@
 package com.github.airbnb.config;
 
+import com.github.airbnb.config.properties.FabricProperties;
 import com.github.whitepin.sdk.contruct.FabricContruct;
 import com.github.whitepin.sdk.whitepin.invocation.ChaincodeInvocation;
 import com.github.whitepin.sdk.whitepin.invocation.ChaincodeInvocationImpl;
+
 import org.bouncycastle.jcajce.provider.digest.Keccak;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class CommonBeanConfig {
+
+    @Autowired
+    private FabricProperties fabricProperties;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -24,7 +30,13 @@ public class CommonBeanConfig {
 
     @Bean
     public FabricContruct fabricContruct() throws Exception {
-        FabricContruct fabricContruct = new FabricContruct();
+        FabricContruct fabricContruct = new FabricContruct(
+                fabricProperties.getCaName(), fabricProperties.getCaLocation(),
+                fabricProperties.getUserName(), fabricProperties.getUserPassword(),
+                fabricProperties.getOrgMsp(), fabricProperties.getOrdererName(),
+                fabricProperties.getOrdererLocation(), fabricProperties.getPeerName1(),
+                fabricProperties.getPeerLocation1(), fabricProperties.getChannelName()
+        );
         fabricContruct.setUp();
         return fabricContruct;
     }
