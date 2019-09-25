@@ -101,7 +101,7 @@ INSERT INTO airbnb_product ( product_id
 VALUES ( 1
        , 'Mary House는 버스 정류장과 지하철역에서 도보로 5 분 거리에 있으며 서울에서 여행하기가 매우 쉽습니다. 또한 버스로 15 분이면 동대문 및 명동 지역으로 이동하기 쉽습니다. Mary House 근처에는 가장 크고 오래된 전통 경동 양녕 시장이 있으며 합리적인 가격으로 구입하십시오. Mary House는 매우 조용한 주거 지역에 위치하고 있습니다. MaryHouse는 공식적으로 정부의 인증을 받았으며 법적으로 운영됩니다.'
        , 'Calm and Friendly Mary House''s White Room in seoul'
-       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
+       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'sell@naver.com')
 	   , '서울'
 	   , '66,230'
 	   , 'room-1.jpg'
@@ -126,7 +126,7 @@ INSERT INTO airbnb_product ( product_id
 VALUES ( 2
        , ''
        , '[Hongdae 2 min] 홍대입구역 8번출구 걸어서 2분 거리! 최고 역세권, 가성비 최고 아늑한 방 #1'
-       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
+       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'sell@naver.com')
 	   , '서울'
 	   , '77,540'
 	   , 'room-2.jpg'
@@ -151,7 +151,7 @@ INSERT INTO airbnb_product ( product_id
 VALUES ( 3
        , ''
        , 'Private terrace! 3mins from AREX station'
-       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
+       , (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'sell@naver.com')
 	   , '서울'
 	   , '48,550'
 	   , 'room-3.jpg'
@@ -175,7 +175,7 @@ UPDATE airbnb_role.role = airbnb_role.role
 INSERT INTO airbnb_user_role ( user_id
                          , role_id)
 VALUES (
-        (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'hong@naver.com')
+        (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'sell@naver.com')
        , (SELECT airbnb_role.role_id FROM airbnb_role WHERE role = 'user')
        )
 ON DUPLICATE KEY
@@ -186,7 +186,7 @@ UPDATE
 INSERT INTO airbnb_user_role ( user_id
                          , role_id)
 VALUES (
-        (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'man@naver.com')
+        (SELECT airbnb_user.user_id FROM airbnb_user WHERE email = 'buy@naver.com')
        , (SELECT airbnb_role.role_id FROM airbnb_role WHERE role = 'user')
        )
 ON DUPLICATE KEY
